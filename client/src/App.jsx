@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Hero from "./components/Hero-section/Hero";
 
 import "./App.css";
 
@@ -22,7 +23,9 @@ function Main() {
   return (
     <>
       <Navbar />
-      <Routes>`</Routes>
+      <Routes>
+        <Route path="/" element={<Hero />} />
+      </Routes>
     </>
   );
 }

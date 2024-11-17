@@ -10,7 +10,7 @@ function Navbar() {
       justifyContent: "space-between",
       alignItems: "center",
       backgroundColor: "#333",
-      color: "#fff",
+      color: "var(--color-white)",
       height: "3rem",
       padding: "0 1rem",
       position: "fixed",
@@ -22,7 +22,7 @@ function Navbar() {
       fontSize: "1rem",
       fontWeight: "bold",
       margin: 0,
-      paddingTop: "5rem",
+      paddingTop: "0.5rem",
     },
     logoImage: {
       height: "2.5rem",
@@ -38,13 +38,10 @@ function Navbar() {
       fontSize: "1.2rem",
       textDecoration: "none",
     },
-    linkActive: {
-      color: "#61dafb",
-      textDecoration: "underline",
-    },
+
     button: {
       padding: "0.5rem 1rem",
-      backgroundColor: "#61dafb",
+      backgroundColor: "var(--color-btn)",
       border: "none",
       borderRadius: "5px",
       cursor: "pointer",
