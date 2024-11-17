@@ -1,5 +1,5 @@
 import React from "react";
-import { HeroContainer, HeroHeading, HeroText } from "../StyledComponents/HeroStyled";
+import { HeroContainer, HeroHeading, HeroText } from "../../components/StyledComponents/HeroStyled";
 
 function Hero() {
   return (

@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./pages/Navbar/Navbar";
 import { QueryClient, QueryClientProvider } from "react-query";
-import Hero from "./components/Hero-section/Hero";
+import Hero from "./pages/Hero-section/Hero";
+import About from "./pages/About-section/About";
+import Home from "./pages/HomePage/Home";
 
 import "./App.css";
 
@@ -24,7 +26,7 @@ function Main() {
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Hero />} />
+       <Route path="/" element={<Home  />} /> 
       </Routes>
     </>
   );
