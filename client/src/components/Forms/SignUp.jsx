@@ -1,7 +1,9 @@
 import React from 'react';
 import { SignUpContainer, SignUpLabel, SignUpInput, SignUpField, SignUpHeading, SignUpButton, Logindiv, Logintext, LoginButton, SignUpContainer1 } from '../StyledComponents/SignUpStyled';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
+    const navigate = useNavigate();
   return (
     <SignUpContainer1>
       <SignUpContainer>
@@ -39,7 +41,7 @@ function SignUp() {
         <SignUpButton>Sign Up</SignUpButton>
         <Logindiv>
             <Logintext>Already have an account?</Logintext>
-            <LoginButton>Login</LoginButton>
+            <LoginButton onClick={() => navigate("/SignIn")}>Login</LoginButton>
         </Logindiv>
       </SignUpContainer>
     </SignUpContainer1>
