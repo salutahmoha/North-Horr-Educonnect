@@ -55,10 +55,10 @@ function Navbar() {
         <img src={logo} alt="" className="logoImage" style={styles.logoImage} />
       </div>
       <div className="navlist" style={styles.navlist}>
-        <Link className="/" style={styles.link}>
+        <Link to="/" style={styles.link}>
           <li>Home</li>
         </Link>
-        <Link className="/About" style={styles.link}>
+        <Link to="/About" style={styles.link}>
           <li>About</li>
         </Link>
       </div>
