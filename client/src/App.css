@@ -1,8 +1,11 @@
+
 * {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
 }
+
 html,
 body {
   width: 100%;
@@ -12,4 +15,6 @@ body {
 :root {
   --color-btn: #61dafb;
   --color-white: #fff;
+  --color-btn1: #18ca18;
+  --color-form: #d5e1ec;
 }
