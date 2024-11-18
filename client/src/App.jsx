@@ -14,7 +14,7 @@ const client = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={client}>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_relativeSplatPath: true }}>
         <Main />
       </BrowserRouter>
     </QueryClientProvider>
@@ -33,7 +33,7 @@ function Main() {
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/SignUp" element={<SignUp />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
