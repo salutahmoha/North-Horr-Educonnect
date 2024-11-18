@@ -7,60 +7,60 @@ import { toast } from 'react-toastify';
 import useUserStore from '../../../../server/src/store/useStore';
 
 function SignIn() {
-    // const [identifier, setIdentifier] = useState('');
-    // const [password, setPassword] = useState('');
-    // const navigate = useNavigate();
-    // const setUser = useUserStore((state) => state.setUser);
-    // const [formError, setFormError] = useState(null);
+    const [identifier, setIdentifier] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const setUser = useUserStore((state) => state.setUser);
+    const [formError, setFormError] = useState(null);
 
-    // const { mutate, isLoading } = useMutation({
-    //     mutationFn: async (userObj) => {
-    //         console.log('Sending request to login endpoint:', userObj); // Debug log
-    //         const response = await fetch(`${apiBase}/auth/login`, {
-    //             method: 'POST',
-    //             body: JSON.stringify(userObj),
-    //             headers: { 'Content-Type': 'application/json' },
-    //             credentials: 'include',
-    //         });
-    //         if (!response.ok) {
-    //             const error = await response.text();
-    //             console.error('Login failed with error:', error); // Debug log
-    //             throw new Error(error);
-    //         }
-    //         return await response.json();
-    //     },
-    //     onSuccess: (user) => {
-    //         console.log('Login successful. Received user data:', user); // Debug log
-    //         setUser(user);
-    //         if (user.role === 'admin') {
-    //             navigate('/About'); // Navigate to admin page
-    //         } else {
-    //             navigate('/SignUp'); // Navigate to user page
-    //         }
-    //         toast.success('Login Successful', { autoClose: 3000 });
-    //     },
-    //     onError: (error) => {
-    //         console.error('Login error:', error.message); // Debug log
-    //         toast.error(error.message, { autoClose: 2000 });
-    //     },
-    // });
+    const { mutate, isLoading } = useMutation({
+        mutationFn: async (userObj) => {
+            console.log('Sending request to login endpoint:', userObj); // Debug log
+            const response = await fetch(`${apiBase}/auth/login`, {
+                method: 'POST',
+                body: JSON.stringify(userObj),
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+            });
+            if (!response.ok) {
+                const error = await response.text();
+                console.error('Login failed with error:', error); // Debug log
+                throw new Error(error);
+            }
+            return await response.json();
+        },
+        onSuccess: (user) => {
+            console.log('Login successful. Received user data:', user); // Debug log
+            setUser(user);
+            if (user.role === 'admin') {
+                navigate('/About'); // Navigate to admin page
+            } else {
+                navigate('/SignUp'); // Navigate to user page
+            }
+            toast.success('Login Successful', { autoClose: 3000 });
+        },
+        onError: (error) => {
+            console.error('Login error:', error.message); // Debug log
+            toast.error(error.message, { autoClose: 2000 });
+        },
+    });
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log('Form submitted');
-    //     if (!identifier) {
-    //         toast.error('Email or Username is required', { autoClose: 3000 });
-    //         return;
-    //     }
-    //     if (!password) {
-    //         toast.error('Password is required', { autoClose: 3000 });
-    //         return;
-    //     }
-    //     setFormError(null);
-    //     const formData = { identifier, password };
-    //     console.log('Form submitted with:', formData); // Debug log
-    //     mutate(formData);
-    // };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Form submitted');
+        if (!identifier) {
+            toast.error('Email or Username is required', { autoClose: 3000 });
+            return;
+        }
+        if (!password) {
+            toast.error('Password is required', { autoClose: 3000 });
+            return;
+        }
+        setFormError(null);
+        const formData = { identifier, password };
+        console.log('Form submitted with:', formData); // Debug log
+        mutate(formData);
+    };
 
     return (
         <SignInContainer1>
