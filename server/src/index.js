@@ -68,25 +68,25 @@ app.post("/users", async (req, res) => {
   }
 });
 
-// // fetch single report     
-// app.get('/reports/:id', async (req, res) => {
-//     const { id } = req.params;
+// fetch single report     
+app.get('/reports/:id', async (req, res) => {
+    const { id } = req.params;
   
-//     try {
-//       const report = await prisma.report.findUnique({
-//         where: { id: id }
-//       });
+    try {
+      const report = await prisma.report.findUnique({
+        where: { id: id }
+      });
   
-//       if (!report) {
-//         return res.status(404).json({ message: 'Report not found' });
-//       }
+      if (!report) {
+        return res.status(404).json({ message: 'Report not found' });
+      }
   
-//       return res.status(200).json(report);
-//     } catch (error) {
-//       console.error(error);
-//       return res.status(500).json({ message: 'Server error', error: error.message });
-//     }
-//   });
+      return res.status(200).json(report);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  });
   
 
 
