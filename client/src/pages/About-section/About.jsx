@@ -1,6 +1,8 @@
 import React from 'react'
 import {AboutContainer, AboutImage, AboutText, AboutHeading, AboutParagraph} from '../../components/StyledComponents/AboutStyled'
 import north from '../../assets/north horr.png'
+import Footer
+ from '../Footer/Footer'
 function About() {
   return (
     <AboutContainer>

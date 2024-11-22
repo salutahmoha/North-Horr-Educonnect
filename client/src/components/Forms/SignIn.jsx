@@ -33,9 +33,9 @@ function SignIn() {
             console.log('Login successful. Received user data:', user); // Debug log
             setUser(user);
             if (user.role === 'admin') {
-                navigate('/About'); // Navigate to admin page
+                navigate('/Write'); // Navigate to admin page
             } else {
-                navigate('/SignUp'); // Navigate to user page
+                navigate('/About'); // Navigate to user page
             }
             toast.success('Login Successful', { autoClose: 3000 });
         },

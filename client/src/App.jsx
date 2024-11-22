@@ -6,6 +6,10 @@ import Footer from "./pages/Footer/Footer";
 import Home from "./pages/HomePage/Home";
 import SignIn from "./components/Forms/SignIn";
 import SignUp from "./components/Forms/SignUp";
+import Write from "./pages/Write/Write";
+import EduNavbar from "./pages/EduNavbar/EduNavbar";
+import FullReport from "./pages/FullReport/FullReport";
+import Reports from "./pages/Reports/Reports";
 
 import "./App.css";
 
@@ -26,12 +30,16 @@ function Main() {
 
   return (
     <>
-      <Navbar />
+      {location.pathname !== "/Write" && <Navbar />} {/* Conditionally render Navbar */}
       <Routes>
-       <Route path="/" element={<Home  />} /> 
+        <Route path="/" element={<Home />} />
         <Route path="/About" element={<About />} />
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/SignUp" element={<SignUp />} />
+        <Route path="/Write" element={<Write />} />
+        <Route path="/EduNavbar" element={<EduNavbar />} />
+        <Route path="/reports/:id" element={<FullReport />} />
+        <Route path="/Reports" element={<Reports />} />
       </Routes>
       {/* <Footer /> */}
     </>
