@@ -39,17 +39,17 @@ export async function createReport(req, res) {
     }
 }
 
-// // Get all reports
-// export async function fetchingAllReports(req, res) {
-//     try{
-//         const reports = await prisma.report.findMany({
-//             include: {
-//                 user: true 
-//             }
-//         });
-//         res.status(200).json(reports);
-//     }catch(e){
-//         res.status(500).json({ message: "Something went wrong" });
-//     }
-// }
+// Get all reports
+export async function fetchingAllReports(req, res) {
+    try{
+        const reports = await prisma.report.findMany({
+            include: {
+                user: true 
+            }
+        });
+        res.status(200).json(reports);
+    }catch(e){
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
 
