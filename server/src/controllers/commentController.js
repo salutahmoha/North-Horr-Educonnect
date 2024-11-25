@@ -42,27 +42,27 @@ export async function addComment(req, res) {
   }
 }
 
-// // GET /comments/:reportId - Fetch all comments for a report
-// export async function getComments(req, res) {
-//   try {
-//     const { reportId } = req.params;
+// GET /comments/:reportId - Fetch all comments for a report
+export async function getComments(req, res) {
+  try {
+    const { reportId } = req.params;
 
-//     const comments = await prisma.comment.findMany({
-//       where: { reportId },
-//       include: {
-//         replies: true, // Include replies (nested comments)
-//       },
-//       orderBy: {
-//         createdAt: 'asc',
-//       },
-//     });
+    const comments = await prisma.comment.findMany({
+      where: { reportId },
+      include: {
+        replies: true, // Include replies (nested comments)
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
 
-//     res.status(200).json(comments);
-//   } catch (err) {
-//     console.error("Error fetching comments", err);
-//     res.status(500).json({ message: "Error fetching comments" });
-//   }
-// }
+    res.status(200).json(comments);
+  } catch (err) {
+    console.error("Error fetching comments", err);
+    res.status(500).json({ message: "Error fetching comments" });
+  }
+}
 
 // // DELETE /comments/:id - Admin only delete a comment
 // export async function deleteComment(req, res) {
