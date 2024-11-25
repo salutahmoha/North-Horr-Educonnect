@@ -10,6 +10,7 @@ import Write from "./pages/Write/Write";
 import EduNavbar from "./pages/EduNavbar/EduNavbar";
 import FullReport from "./pages/FullReport/FullReport";
 import Reports from "./pages/Reports/Reports";
+import Comments from "./components/Previews/Comments";
 
 import "./App.css";
 
@@ -40,6 +41,7 @@ function Main() {
         <Route path="/EduNavbar" element={<EduNavbar />} />
         <Route path="/reports/:id" element={<FullReport />} />
         <Route path="/Reports" element={<Reports />} />
+        <Route path="/comments/:id" element={<Comments />} />
       </Routes>
       {/* <Footer /> */}
     </>

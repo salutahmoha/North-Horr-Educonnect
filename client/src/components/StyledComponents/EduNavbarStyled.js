@@ -30,6 +30,8 @@ export const UlStyled = styled.ul`
 text-decoration: none;
 list-style: none;
 display: flex;
+justify-content: center;
+align-items: center;
 gap: 2rem;
 `;
 
