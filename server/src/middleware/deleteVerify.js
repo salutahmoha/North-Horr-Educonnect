@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
-function verifyToken(req, res, next) {
-  console.log("Cookies:", req.cookies); // Debug log for cookies
+function deleteVerify(req, res, next) {
+  console.log("Cookies:", req.cookies);
 
   const { authToken } = req.cookies;
 
@@ -16,10 +16,16 @@ function verifyToken(req, res, next) {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
-    console.log("Decoded token:", decoded); // Debug log for decoded JWT
-    req.userId = decoded.id;
+    console.log("Decoded token:", decoded);
+
+    req.user = {
+      id: decoded.id,
+      role: decoded.role, 
+      isAdmin: decoded.role === 'admin'
+    };
+
     next();
   });
 }
 
-export default verifyToken;
+export default deleteVerify;

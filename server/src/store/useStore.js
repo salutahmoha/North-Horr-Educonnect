@@ -22,6 +22,8 @@ function userStore(set) {
   };
 }
 
-const useUserStore = create(devtools(persist(userStore, { name: "auth-storage" })));
+const useUserStore = create(
+  devtools(persist(userStore, { name: "auth-storage" })),
+);
 
 export default useUserStore;
