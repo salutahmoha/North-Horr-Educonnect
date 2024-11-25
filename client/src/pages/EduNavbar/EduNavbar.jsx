@@ -12,14 +12,14 @@ import useUserStore from '../../../../server/src/store/useStore'; // Ensure the 
 import logo from "../../assets/NHClogo-1.png";
 
 function EduNavbar() {
-  // const user = useUserStore((state) => state.user);
-  // const logoutUser = useUserStore((state) => state.logoutUser);
-  // const navigate = useNavigate();
+  const user = useUserStore((state) => state.user);
+  const logoutUser = useUserStore((state) => state.logoutUser);
+  const navigate = useNavigate();
 
-  // const handleLogout = () => {
-  //   logoutUser(); // Clear user data in the store
-  //   navigate('/SignIn'); // Redirect to the Sign-In page
-  // };
+  const handleLogout = () => {
+    logoutUser(); // Clear user data in the store
+    navigate('/SignIn'); // Redirect to the Sign-In page
+  };
 
   return (
     <EduNavbarContainer>
@@ -29,7 +29,7 @@ function EduNavbar() {
         <UlStyled>
           <LinkStyled to="/Reports"><LiStyled>Reports</LiStyled></LinkStyled>
           <LinkStyled to="/Write"><LiStyled>Write</LiStyled></LinkStyled>
-          {/* <li
+          <li
             onClick={handleLogout}
             className="logout"
             style={{ cursor: 'pointer', padding: '0 rem 2rem', color: 'red', fontSize: '1.2rem' }}
@@ -44,7 +44,7 @@ function EduNavbar() {
             <LinkStyled to="/SignIn">
               <li>Login</li>
             </LinkStyled>
-          )} */}
+          )}
         </UlStyled>
       </NavListingsStyled>
     </EduNavbarContainer>
