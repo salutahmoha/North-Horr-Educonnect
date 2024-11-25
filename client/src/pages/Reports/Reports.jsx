@@ -5,27 +5,27 @@ import apiBase from '../../utils/apiBase';
 import ReportPreview from '../../components/Previews/ReportPreview'
 
 function Reports() {
-    // const { isLoading, isError, error, data } = useQuery({
-    //     queryKey: ['reports'],
-    //     queryFn: async () => {
-    //       const response = await fetch(`${apiBase}/reports`, { credentials: "include" });
-    //       if (!response.ok) {
-    //         const error = await response.json();
-    //         throw new Error(error.message);
-    //       }
-    //       return response.json();
-    //     }
-    //   });
+    const { isLoading, isError, error, data } = useQuery({
+        queryKey: ['reports'],
+        queryFn: async () => {
+          const response = await fetch(`${apiBase}/reports`, { credentials: "include" });
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          return response.json();
+        }
+      });
 
-    //   if (isLoading) {
-    //     return <h2>Loading, please wait...</h2>;
-    //   }
+      if (isLoading) {
+        return <h2>Loading, please wait...</h2>;
+      }
       
-    //   if (isError) {
-    //     return <h2>{error.message}</h2>;
-    //   }
+      if (isError) {
+        return <h2>{error.message}</h2>;
+      }
       
-    //   const sortedReports = data ? data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) : [];
+      const sortedReports = data ? data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) : [];
       
       return (
         <div>
