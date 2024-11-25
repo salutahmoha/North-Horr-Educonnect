@@ -12,61 +12,61 @@ import apiBase from "../../utils/apiBase";
 import useUserStore from "../../../../server/src/store/useStore";
 
 function ReportPreview({ id, schoolname, image, body }) {
-  // const [likes, setLikes] = useState(0);
-  // const [liked, setLiked] = useState(false);
-  // const [isExpanded, setIsExpanded] = useState(false);
-  // const [comments, setComments] = useState([]);
-  // const [newComment, setNewComment] = useState("");
-  // const [isCommenting, setIsCommenting] = useState(false);
+  const [likes, setLikes] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [isCommenting, setIsCommenting] = useState(false);
 
-  // const { user } = useUserStore();
+  const { user } = useUserStore();
 
-  // // Fetch comments for this report
-  // const fetchComments = async () => {
-  //   try {
-  //     const response = await axios.get(`${apiBase}/comments/${id}`);
-  //     setComments(response.data || []);
-  //   } catch (err) {
-  //     console.error("Error fetching comments", err);
-  //   }
-  // };
+  // Fetch comments for this report
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`${apiBase}/comments/${id}`);
+      setComments(response.data || []);
+    } catch (err) {
+      console.error("Error fetching comments", err);
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchComments();
-  // }, [id]);
+  useEffect(() => {
+    fetchComments();
+  }, [id]);
 
-  // const toggleReadMore = () => {
-  //   setIsExpanded(!isExpanded);
-  // };
+  const toggleReadMore = () => {
+    setIsExpanded(!isExpanded);
+  };
 
-  // const handleLike = () => {
-  //   setLiked((prevLiked) => {
-  //     setLikes((prevLikes) => (prevLiked ? prevLikes - 1 : prevLikes + 1));
-  //     return !prevLiked;
-  //   });
-  // };
+  const handleLike = () => {
+    setLiked((prevLiked) => {
+      setLikes((prevLikes) => (prevLiked ? prevLikes - 1 : prevLikes + 1));
+      return !prevLiked;
+    });
+  };
 
-  // const handleCommentSubmit = async () => {
-  //   if (!user) {
-  //     alert("Please log in to comment.");
-  //     return;
-  //   }
+  const handleCommentSubmit = async () => {
+    if (!user) {
+      alert("Please log in to comment.");
+      return;
+    }
   
-  //   try {
-  //     await axios.post(
-  //       `${apiBase}/comments`,
-  //       { text: newComment, reportId: id },
-  //       {
-  //           headers: { Authorization: `Bearer ${user.token}` },
-  //           withCredentials: true, 
-  //       });
-  //     setNewComment("");
-  //     fetchComments();
-  //     setIsCommenting(false);
-  //   } catch (err) {
-  //     console.error("Error posting comment", err);
-  //   }
-  // };
+    try {
+      await axios.post(
+        `${apiBase}/comments`,
+        { text: newComment, reportId: id },
+        {
+            headers: { Authorization: `Bearer ${user.token}` },
+            withCredentials: true, 
+        });
+      setNewComment("");
+      fetchComments();
+      setIsCommenting(false);
+    } catch (err) {
+      console.error("Error posting comment", err);
+    }
+  };
   
 
   return (
