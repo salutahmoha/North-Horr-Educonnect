@@ -50,7 +50,7 @@ export async function getComments(req, res) {
     const comments = await prisma.comment.findMany({
       where: { reportId },
       include: {
-        replies: true, // Include replies (nested comments)
+        replies: true, 
       },
       orderBy: {
         createdAt: 'asc',
@@ -64,31 +64,31 @@ export async function getComments(req, res) {
   }
 }
 
-// // DELETE /comments/:id - Admin only delete a comment
-// export async function deleteComment(req, res) {
-//     try {
-//       const { id } = req.params;
+// DELETE /comments/:id - Admin only delete a comment
+export async function deleteComment(req, res) {
+    try {
+      const { id } = req.params;
 
-//       // Check if the user is an admin
-//       if (!req.user?.isAdmin) {
-//         return res.status(403).json({ message: 'Unauthorized' });
-//       }
+      // Check if the user is an admin
+      if (!req.user?.isAdmin) {
+        return res.status(403).json({ message: 'Unauthorized' });
+      }
 
-//       const comment = await prisma.comment.findUnique({
-//         where: { id },
-//       });
+      const comment = await prisma.comment.findUnique({
+        where: { id },
+      });
 
-//       if (!comment) {
-//         return res.status(404).json({ message: 'Comment not found' });
-//       }
+      if (!comment) {
+        return res.status(404).json({ message: 'Comment not found' });
+      }
 
-//       await prisma.comment.delete({
-//         where: { id },
-//       });
+      await prisma.comment.delete({
+        where: { id },
+      });
 
-//       res.status(200).json({ message: 'Comment deleted successfully' });
-//     } catch (err) {
-//       console.error(err);
-//       res.status(500).json({ message: 'Error deleting comment', error: err.message });
-//     }
-//   }
+      res.status(200).json({ message: 'Comment deleted successfully' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error deleting comment', error: err.message });
+    }
+  }
