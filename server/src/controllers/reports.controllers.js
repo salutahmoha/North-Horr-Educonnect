@@ -167,26 +167,26 @@ export async function updateProfile(req, res) {
     }
 }
 
-// export async function fetchProfileImage (req, res) {
-//     const { userId } = req.params;
+export async function fetchProfileImage (req, res) {
+    const { userId } = req.params;
 
-//   try {
-//     // Fetch the profile data based on the userId
-//     const profile = await prisma.profile.findUnique({
-//       where: { userId: userId },
-//       select: { profileImage: true },
-//     });
+  try {
+    // Fetch the profile data based on the userId
+    const profile = await prisma.profile.findUnique({
+      where: { userId: userId },
+      select: { profileImage: true },
+    });
 
-//     if (profile) {
-//       return res.json(profile);
-//     } else {
-//       return res.status(404).json({ message: 'Profile not found' });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// };
+    if (profile) {
+      return res.json(profile);
+    } else {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 
 // // update personal information
 // export async function updatePersonalInformation(req, res) {
