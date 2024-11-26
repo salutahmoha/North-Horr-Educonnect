@@ -29,6 +29,7 @@ function EduNavbar() {
         <UlStyled>
           <LinkStyled to="/Reports"><LiStyled>Reports</LiStyled></LinkStyled>
           <LinkStyled to="/Write"><LiStyled>Write</LiStyled></LinkStyled>
+          <LinkStyled to="/Profile"><LiStyled>Profile</LiStyled></LinkStyled>
           <li
             onClick={handleLogout}
             className="logout"

@@ -11,6 +11,7 @@ import EduNavbar from "./pages/EduNavbar/EduNavbar";
 import FullReport from "./pages/FullReport/FullReport";
 import Reports from "./pages/Reports/Reports";
 import Comments from "./components/Previews/Comments";
+import Profile from "./pages/Profile/Profile";
 
 import "./App.css";
 
@@ -31,7 +32,8 @@ function Main() {
 
   return (
     <>
-      {location.pathname !== "/Write" && <Navbar />} {/* Conditionally render Navbar */}
+      {location.pathname !== "/Write" && 
+      location.pathname !== "/Profile" &&<Navbar />} {/* Conditionally render Navbar */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/About" element={<About />} />
@@ -42,6 +44,7 @@ function Main() {
         <Route path="/reports/:id" element={<FullReport />} />
         <Route path="/Reports" element={<Reports />} />
         <Route path="/comments/:id" element={<Comments />} />
+        <Route path="/Profile" element={<Profile />} />
       </Routes>
       {/* <Footer /> */}
     </>
