@@ -13,102 +13,102 @@ import {
 } from "../StyledComponents/ProfileUpdate";
 
 function ProfileUpdate() {
-    // const [profileExists, setProfileExists] = useState(false);
-    // const [phoneNumber, setPhoneNumber] = useState("");
-    // const [occupation, setOccupation] = useState("");
-    // const [bio, setBio] = useState("");
-    // const [secondaryEmail, setSecondaryEmail] = useState("");
-    // const [profileImage, setProfileImage] = useState(null);
-    // const navigate = useNavigate();
+    const [profileExists, setProfileExists] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [occupation, setOccupation] = useState("");
+    const [bio, setBio] = useState("");
+    const [secondaryEmail, setSecondaryEmail] = useState("");
+    const [profileImage, setProfileImage] = useState(null);
+    const navigate = useNavigate();
 
-    // const cloud_name = "dabf2zb53";
-    // const preset_key = "uuru49ye";
+    const cloud_name = "dabf2zb53";
+    const preset_key = "uuru49ye";
 
-    // useEffect(() => {
-    //     axios
-    //         .get(`${apiBase}/users/profile`, { withCredentials: true })
-    //         .then((response) => {
-    //             const profileData = response.data;
-    //             setPhoneNumber(profileData.phoneNumber || "");
-    //             setOccupation(profileData.occupation || "");
-    //             setBio(profileData.bio || "");
-    //             setSecondaryEmail(profileData.secondaryEmail || "");
-    //             setProfileImage(profileData.profileImage || null);
-    //             setProfileExists(true);
-    //         })
-    //         .catch((err) => {
-    //             console.log("No existing profile found or error fetching profile:", err);
-    //             setProfileExists(false);
-    //         });
-    // }, []);
+    useEffect(() => {
+        axios
+            .get(`${apiBase}/users/profile`, { withCredentials: true })
+            .then((response) => {
+                const profileData = response.data;
+                setPhoneNumber(profileData.phoneNumber || "");
+                setOccupation(profileData.occupation || "");
+                setBio(profileData.bio || "");
+                setSecondaryEmail(profileData.secondaryEmail || "");
+                setProfileImage(profileData.profileImage || null);
+                setProfileExists(true);
+            })
+            .catch((err) => {
+                console.log("No existing profile found or error fetching profile:", err);
+                setProfileExists(false);
+            });
+    }, []);
 
-    // function handleFileUpload(event) {
-    //     const file = event.target.files[0];
-    //     const formData = new FormData();
-    //     formData.append("file", file);
-    //     formData.append("upload_preset", preset_key);
+    function handleFileUpload(event) {
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", preset_key);
 
-    //     axios
-    //         .post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, formData)
-    //         .then((res) => setProfileImage(res.data.secure_url))
-    //         .catch((err) => console.error("Image upload failed", err));
-    // }
+        axios
+            .post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, formData)
+            .then((res) => setProfileImage(res.data.secure_url))
+            .catch((err) => console.error("Image upload failed", err));
+    }
 
-    // const { isLoading, mutate } = useMutation({
-    //     mutationFn: async (profile) => {
-    //         const response = await fetch(`${apiBase}/users/profile`, {
-    //             method: "POST", // Update or create
-    //             body: JSON.stringify(profile),
-    //             headers: { "Content-Type": "application/json" },
-    //             credentials: "include",
-    //         });
+    const { isLoading, mutate } = useMutation({
+        mutationFn: async (profile) => {
+            const response = await fetch(`${apiBase}/users/profile`, {
+                method: "POST", // Update or create
+                body: JSON.stringify(profile),
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+            });
 
-    //         if (!response.ok) {
-    //             const error = await response.json();
-    //             throw new Error(error.message);
-    //         }
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message);
+            }
 
-    //         return await response.json();
-    //     },
-    //     onSuccess: (data) => {
-    //         setProfileExists(true);
+            return await response.json();
+        },
+        onSuccess: (data) => {
+            setProfileExists(true);
 
-    //         // Update state with updated profile
-    //         setPhoneNumber(data.phoneNumber);
-    //         setOccupation(data.occupation);
-    //         setBio(data.bio);
-    //         setSecondaryEmail(data.secondaryEmail);
-    //         setProfileImage(data.profileImage);
+            // Update state with updated profile
+            setPhoneNumber(data.phoneNumber);
+            setOccupation(data.occupation);
+            setBio(data.bio);
+            setSecondaryEmail(data.secondaryEmail);
+            setProfileImage(data.profileImage);
 
-    //         toast("Profile successfully updated!", { theme: "toast-success", duration: 3000 });
-    //     },
-    //     onError: (error) => {
-    //         console.error("Error during mutation:", error);
-    //         toast(error.message, { theme: "toast-error", duration: 3000 });
-    //     },
-    // });
+            toast("Profile successfully updated!", { theme: "toast-success", duration: 3000 });
+        },
+        onError: (error) => {
+            console.error("Error during mutation:", error);
+            toast(error.message, { theme: "toast-error", duration: 3000 });
+        },
+    });
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    //     if (!phoneNumber && !occupation && !bio && !secondaryEmail && !profileImage) {
-    //         return toast("At least one field is required", { theme: "toast-error", duration: 3000 });
-    //     }
+        if (!phoneNumber && !occupation && !bio && !secondaryEmail && !profileImage) {
+            return toast("At least one field is required", { theme: "toast-error", duration: 3000 });
+        }
 
-    //     const updatedProfile = {};
+        const updatedProfile = {};
 
-    //     if (phoneNumber.trim() !== "") updatedProfile.phoneNumber = phoneNumber.trim();
-    //     if (occupation.trim() !== "") updatedProfile.occupation = occupation.trim();
-    //     if (bio.trim() !== "") updatedProfile.bio = bio.trim();
+        if (phoneNumber.trim() !== "") updatedProfile.phoneNumber = phoneNumber.trim();
+        if (occupation.trim() !== "") updatedProfile.occupation = occupation.trim();
+        if (bio.trim() !== "") updatedProfile.bio = bio.trim();
 
-    //     if (secondaryEmail.trim() !== "") {
-    //         updatedProfile.secondaryEmail = secondaryEmail.trim();
-    //     }
+        if (secondaryEmail.trim() !== "") {
+            updatedProfile.secondaryEmail = secondaryEmail.trim();
+        }
 
-    //     if (profileImage !== null) updatedProfile.profileImage = profileImage;
+        if (profileImage !== null) updatedProfile.profileImage = profileImage;
 
-    //     mutate(updatedProfile);
-    // };
+        mutate(updatedProfile);
+    };
 
     return (
         <ProfileUpdateContainer>
