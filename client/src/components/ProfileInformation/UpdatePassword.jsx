@@ -9,53 +9,53 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { UpdatePasswordContainer, UpdatePasswordForm, Heading, PasswordField, PasswordInput, EyeIcon, Button } from '../StyledComponents/UpdatePasswordStyled';
 
 function UpdatePassword() {
-    // const [prevPassword, setPrevPassword] = useState('');
-    // const [newPassword, setNewPassword] = useState('');
-    // const [confirmPassword, setConfirmPassword] = useState('');
-    // const [showPrevPassword, setShowPrevPassword] = useState(false);
-    // const [showNewPassword, setShowNewPassword] = useState(false);
-    // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    // const setUser = useUserStore(state => state.setUser);
+    const [prevPassword, setPrevPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPrevPassword, setShowPrevPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const setUser = useUserStore(state => state.setUser);
 
-    // const { mutate, isLoading } = useMutation({
-    //     mutationFn: async (passwords) => {
-    //         const response = await fetch(`${apiBase}/auth/password`, {
-    //             method: 'PATCH',
-    //             body: JSON.stringify(passwords),
-    //             headers: { 'Content-Type': 'application/json' },
-    //             credentials: "include"
-    //         });
-    //         if (!response.ok) {
-    //             const error = await response.json();
-    //             throw new Error(error.message);
-    //         }
-    //         const data = await response.json();
-    //         return data;
-    //     },
-    //     onSuccess: () => {
-    //         toast("Password updated successfully", { theme: "toast-success", duration: 3000 });
-    //     },
-    //     onError: (error) => {
-    //         toast(error.message, { theme: "toast-error", duration: 3000 });
-    //     }
-    // });
+    const { mutate, isLoading } = useMutation({
+        mutationFn: async (passwords) => {
+            const response = await fetch(`${apiBase}/auth/password`, {
+                method: 'PATCH',
+                body: JSON.stringify(passwords),
+                headers: { 'Content-Type': 'application/json' },
+                credentials: "include"
+            });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message);
+            }
+            const data = await response.json();
+            return data;
+        },
+        onSuccess: () => {
+            toast("Password updated successfully", { theme: "toast-success", duration: 3000 });
+        },
+        onError: (error) => {
+            toast(error.message, { theme: "toast-error", duration: 3000 });
+        }
+    });
 
-    // function handleUpdatePassword(e) {
-    //     e.preventDefault();
-    //     if (!prevPassword) {
-    //         return toast("Previous password required", { theme: "toast-error", duration: 3000 });
-    //     }
-    //     if (!newPassword) {
-    //         return toast("New password required", { theme: "toast-error", duration: 3000 });
-    //     }
-    //     if (!confirmPassword) {
-    //         return toast("Confirm password required", { theme: "toast-error", duration: 3000 });
-    //     }
-    //     if (newPassword !== confirmPassword) {
-    //         return toast("New password and confirm password do not match", { theme: "toast-error", duration: 3000 });
-    //     }
-    //     mutate({ prevPassword, newPassword });
-    // }
+    function handleUpdatePassword(e) {
+        e.preventDefault();
+        if (!prevPassword) {
+            return toast("Previous password required", { theme: "toast-error", duration: 3000 });
+        }
+        if (!newPassword) {
+            return toast("New password required", { theme: "toast-error", duration: 3000 });
+        }
+        if (!confirmPassword) {
+            return toast("Confirm password required", { theme: "toast-error", duration: 3000 });
+        }
+        if (newPassword !== confirmPassword) {
+            return toast("New password and confirm password do not match", { theme: "toast-error", duration: 3000 });
+        }
+        mutate({ prevPassword, newPassword });
+    }
 
     return (
         <UpdatePasswordContainer>
