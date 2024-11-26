@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const ReportPreviewContainer = styled.div`
   border: 1px solid #333;
-  padding: 1rem;
+  padding: .4rem 1rem;
   width: 60%;
   margin: 0 auto;
   display: block;
-  margin-top: 5rem;
+  margin-top: 4rem;
   background-color: var(--color-form);
 `;
 
@@ -55,4 +55,38 @@ export const ActionButtons = styled.div`
       font-size: 1.2rem;
     }
   }
+`;
+
+export const ReportNav = styled.div`
+display: flex;
+justify-content: space-between;
+/* align-items: center; */
+`;
+
+export const OwnerProfile = styled.div`
+display: flex;
+align-items: center;
+`;
+
+export const OwnerProfileImage = styled.div`
+width: 3rem;
+height: 3rem;
+border-radius: 50%;
+border: 1px solid #333;
+overflow: hidden;
+margin-right: 1rem;
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+`;
+
+export const OwnerName = styled.h5`
+font-size: 1.2rem;
+font-weight: bold;
+`;
+
+export const ProfileMoreInfo = styled.p`
+font-size: 2rem;
 `;

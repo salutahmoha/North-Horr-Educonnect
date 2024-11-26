@@ -7,6 +7,11 @@ import {
   ImageReportStyled,
   BodyStyled,
   ActionButtons,
+  ReportNav,
+  OwnerProfileImage,
+  OwnerProfile,
+  OwnerName,
+  ProfileMoreInfo,
 } from "../StyledComponents/ReportPreview";
 import apiBase from "../../utils/apiBase";
 import useUserStore from "../../../../server/src/store/useStore";
@@ -72,6 +77,18 @@ function ReportPreview({ id, schoolname, image, body }) {
   return (
     <ReportPreviewContainer>
       <div>
+        <ReportNav>
+          <OwnerProfile>
+            <OwnerProfileImage><img src="" alt="" /></OwnerProfileImage>
+            <div>
+              <OwnerName>name of owner</OwnerName>
+              <p>date</p>
+            </div>
+          </OwnerProfile>
+          <div>
+            <ProfileMoreInfo>...</ProfileMoreInfo>
+          </div>
+        </ReportNav>
         <h2>{schoolname}</h2>
         <BodyStyled>
           <p
