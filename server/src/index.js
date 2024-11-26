@@ -8,6 +8,11 @@ import cors from "cors";
 import {
   createReport,
   fetchingAllReports,
+  createProfile,
+  getUserProfie,
+  updateProfile,
+  updatePersonalInformation,
+  fetchProfileImage,
 } from "./controllers/reports.controllers.js";
 import {
   addComment,
@@ -17,7 +22,7 @@ import {
 import verifyToken from "./middleware/verifyToken.js";
 import validateReport from "./middleware/validateReport.js";
 import deleteVerify from "./middleware/DeleteVerify.js";
-
+import { updatePassword } from "./controllers/auth.controllers.js";
 const prisma = new PrismaClient();
 
 const app = express();
@@ -99,8 +104,25 @@ app.get("/reports/:id", async (req, res) => {
   }
 });
 
+
 // Login user
 app.post("/auth/login", loginUser);
+
+// Create profile
+app.post("/users/profile", verifyToken, createProfile);
+
+// Get profile
+app.get("/users/profile", verifyToken, getUserProfie);
+
+// Update profile
+app.put("/users/profile", verifyToken, updateProfile);
+
+// Update personal information
+app.put("/users", verifyToken, updatePersonalInformation);
+
+// Update password
+app.patch("/auth/password", verifyToken, updatePassword);
+
 // Create report
 app.post("/reports", verifyToken, validateReport, createReport);
 

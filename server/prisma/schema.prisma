@@ -17,20 +17,21 @@ model User {
   role         String    @default("user")
   reports      Report[]
   comments     Comment[]
+  profile      Profile?  // A user can have one profile
 
   @@map("users")
 }
 
 model Report {
-  id        String    @id @default(uuid())
+  id         String    @id @default(uuid())
   schoolname String
-  image     String? 
-  body      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  owner     String
-  user      User      @relation(fields: [owner], references: [id])
-  comments  Comment[]
+  image      String? 
+  body       String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  owner      String
+  user       User      @relation(fields: [owner], references: [id], onDelete: Cascade)
+  comments   Comment[]
 
   @@map("reports")
 }
@@ -44,10 +45,26 @@ model Comment {
   reportId  String
   parentId  String? // For nested comments
 
-  user      User      @relation(fields: [userId], references: [id])
-  report    Report    @relation(fields: [reportId], references: [id])
-  parent    Comment?  @relation("ParentComment", fields: [parentId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  report    Report    @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  parent    Comment?  @relation("ParentComment", fields: [parentId], references: [id], onDelete: SetNull)
   replies   Comment[] @relation("ParentComment")
 
   @@map("comments")
+}
+
+model Profile {
+  id              String   @id @default(cuid())
+  phoneNumber     String
+  occupation      String
+  bio             String
+  secondaryEmail  String   @unique
+  profileImage    String?
+  userId          String   @unique // Each user can have only one profile
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("profiles")
 }
