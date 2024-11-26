@@ -121,51 +121,51 @@ export  async function  getUserProfie(req, res) {
     }
 };
 
-// //update profile 
-// export async function updateProfile(req, res) {
-//     const { phoneNumber, occupation, bio, secondaryEmail, profileImage } = req.body;
-//     const userId = req.userId;
+//update profile 
+export async function updateProfile(req, res) {
+    const { phoneNumber, occupation, bio, secondaryEmail, profileImage } = req.body;
+    const userId = req.userId;
 
-//     try {
-//         const existingProfile = await prisma.profile.findFirst({ where: { userId } });
+    try {
+        const existingProfile = await prisma.profile.findFirst({ where: { userId } });
 
-//         if (!existingProfile) {
-//             return res.status(404).json({ message: "Profile not found" });
-//         }
+        if (!existingProfile) {
+            return res.status(404).json({ message: "Profile not found" });
+        }
 
-//         // Only validate secondaryEmail if it is provided and different from the current one
-//         if (
-//             secondaryEmail &&
-//             secondaryEmail !== existingProfile.secondaryEmail
-//         ) {
-//             const emailExists = await prisma.profile.findUnique({
-//                 where: { secondaryEmail },
-//             });
-//             if (emailExists) {
-//                 return res.status(400).json({ message: "Secondary email is already taken" });
-//             }
-//         }
+        // Only validate secondaryEmail if it is provided and different from the current one
+        if (
+            secondaryEmail &&
+            secondaryEmail !== existingProfile.secondaryEmail
+        ) {
+            const emailExists = await prisma.profile.findUnique({
+                where: { secondaryEmail },
+            });
+            if (emailExists) {
+                return res.status(400).json({ message: "Secondary email is already taken" });
+            }
+        }
 
-//         // Prepare update object only with fields that have been provided
-//         const updatedData = {};
-//         if (phoneNumber) updatedData.phoneNumber = phoneNumber;
-//         if (occupation) updatedData.occupation = occupation;
-//         if (bio) updatedData.bio = bio;
-//         if (secondaryEmail) updatedData.secondaryEmail = secondaryEmail;
-//         if (profileImage) updatedData.profileImage = profileImage;
+        // Prepare update object only with fields that have been provided
+        const updatedData = {};
+        if (phoneNumber) updatedData.phoneNumber = phoneNumber;
+        if (occupation) updatedData.occupation = occupation;
+        if (bio) updatedData.bio = bio;
+        if (secondaryEmail) updatedData.secondaryEmail = secondaryEmail;
+        if (profileImage) updatedData.profileImage = profileImage;
 
-//         // Update the profile
-//         const updatedProfile = await prisma.profile.update({
-//             where: { userId },
-//             data: updatedData,
-//         });
+        // Update the profile
+        const updatedProfile = await prisma.profile.update({
+            where: { userId },
+            data: updatedData,
+        });
 
-//         res.status(200).json(updatedProfile);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "An error occurred while updating the profile" });
-//     }
-// }
+        res.status(200).json(updatedProfile);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "An error occurred while updating the profile" });
+    }
+}
 
 // export async function fetchProfileImage (req, res) {
 //     const { userId } = req.params;
