@@ -13,6 +13,9 @@ import {
   updateProfile,
   updatePersonalInformation,
   fetchProfileImage,
+  deleteReport,
+  getOwnerDetails,
+  fetchingReportById,
 } from "./controllers/reports.controllers.js";
 import {
   addComment,
@@ -104,7 +107,6 @@ app.get("/reports/:id", async (req, res) => {
   }
 });
 
-
 // Login user
 app.post("/auth/login", loginUser);
 
@@ -135,7 +137,19 @@ app.post("/comments", verifyToken, addComment);
 // Get comments
 app.get("/comments/:reportId", getComments);
 
+// Delete report - Admin only delete a report
+app.delete("/reports/:id", deleteVerify, deleteReport);
+
 // Delete comment - Admin only delete a comment
 app.delete("/comments/:id", deleteVerify, deleteComment);
+
+// get ownerdetails
+app.get("/reports/:id", getOwnerDetails);
+
+// fetch profile image
+app.get("/users/profile/:id", fetchProfileImage);
+
+// fetch report by id
+app.get("/reports/:id", fetchingReportById);
 
 app.listen(4000, () => console.log("Server running on http://localhost:4000"));

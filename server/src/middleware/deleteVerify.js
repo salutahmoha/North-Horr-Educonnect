@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 function deleteVerify(req, res, next) {
   console.log("Cookies:", req.cookies);
@@ -20,8 +20,8 @@ function deleteVerify(req, res, next) {
 
     req.user = {
       id: decoded.id,
-      role: decoded.role, 
-      isAdmin: decoded.role === 'admin'
+      role: decoded.role,
+      isAdmin: decoded.role === "admin",
     };
 
     next();
