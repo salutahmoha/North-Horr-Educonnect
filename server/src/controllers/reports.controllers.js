@@ -54,25 +54,25 @@ export async function fetchingAllReports(req, res) {
 }
 // fetching single report
 export async function fetchingReportById(req, res) {
-    const { id } = req.params; // Get report ID from URL parameters
-    try {
-      const report = await prisma.report.findUnique({
-        where: { id }, // Find the report by ID
-        include: {
-          user: true, // Include the associated user details (owner of the report)
-        },
-      });
+  const { id } = req.params; // Get report ID from URL parameters
+  try {
+    const report = await prisma.report.findUnique({
+      where: { id }, // Find the report by ID
+      include: {
+        user: true, // Include the associated user details (owner of the report)
+      },
+    });
 
-      if (!report) {
-        return res.status(404).json({ message: "Report not found" });
-      }
-
-      res.status(200).json(report); // Return the report with the associated user
-    } catch (e) {
-      console.error(e);
-      res.status(500).json({ message: "Something went wrong" });
+    if (!report) {
+      return res.status(404).json({ message: "Report not found" });
     }
+
+    res.status(200).json(report); // Return the report with the associated user
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: "Something went wrong" });
   }
+}
 
 // create profile
 export async function createProfile(req, res) {
@@ -247,36 +247,45 @@ export async function updatePersonalInformation(req, res) {
 
 // delete report
 export async function deleteReport(req, res) {
-    // Ensure that the user is an admin
-    if (!req.user || !req.user.isAdmin) {
-      return res.status(403).json({ message: "You do not have permission to delete this report." });
-    }
+  // Ensure that the user is an admin
+  if (!req.user || !req.user.isAdmin) {
+    return res
+      .status(403)
+      .json({ message: "You do not have permission to delete this report." });
+  }
 
-    const { id } = req.params;
+  const { id } = req.params;
 
-    // Check if the report exists
-    const report = await prisma.report.findUnique({
-      where: { id },
+  // Check if the report exists
+  const report = await prisma.report.findUnique({
+    where: { id },
+  });
+
+  if (!report) {
+    return res.status(404).json({ message: "Report not found" });
+  }
+
+  // Proceed with deletion
+  try {
+    const deletedReport = await prisma.report.delete({
+      where: {
+        id: id,
+      },
     });
 
-    if (!report) {
-      return res.status(404).json({ message: "Report not found" });
-    }
-
-    // Proceed with deletion
-    try {
-      const deletedReport = await prisma.report.delete({
-        where: {
-          id: id,
-        },
+    return res
+      .status(200)
+      .json({ message: "Report deleted successfully", report: deletedReport });
+  } catch (error) {
+    console.error("Error deleting report:", error);
+    return res
+      .status(500)
+      .json({
+        message: "An error occurred while deleting the report.",
+        error: error.message,
       });
-
-      return res.status(200).json({ message: "Report deleted successfully", report: deletedReport });
-    } catch (error) {
-      console.error("Error deleting report:", error);
-      return res.status(500).json({ message: "An error occurred while deleting the report.", error: error.message });
-    }
   }
+}
 
 export async function getOwnerDetails(req, res) {
   try {

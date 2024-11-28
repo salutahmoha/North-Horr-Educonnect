@@ -21,6 +21,7 @@ import {
   addComment,
   getComments,
   deleteComment,
+  addReply,
 } from "./controllers/commentController.js";
 import verifyToken from "./middleware/verifyToken.js";
 import validateReport from "./middleware/validateReport.js";
@@ -151,5 +152,8 @@ app.get("/users/profile/:id", fetchProfileImage);
 
 // fetch report by id
 app.get("/reports/:id", fetchingReportById);
+
+// add reply
+app.post("/comments/reply", verifyToken, addReply);
 
 app.listen(4000, () => console.log("Server running on http://localhost:4000"));

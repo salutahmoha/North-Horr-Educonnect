@@ -49,10 +49,20 @@ export async function getComments(req, res) {
   try {
     const { reportId } = req.params;
 
+    // Fetch top-level comments with nested replies
     const comments = await prisma.comment.findMany({
-      where: { reportId },
+      where: {
+        reportId,
+        parentId: null, // Fetch only top-level comments
+      },
       include: {
-        replies: true,
+        replies: {
+          include: {
+            replies: true, // Include nested replies recursively
+            user: true, // Optionally include user data for replies
+          },
+        },
+        user: true, // Optionally include user data for the comment
       },
       orderBy: {
         createdAt: "asc",
@@ -94,5 +104,33 @@ export async function deleteComment(req, res) {
     res
       .status(500)
       .json({ message: "Error deleting comment", error: err.message });
+  }
+}
+
+// adding replies
+export async function addReply(req, res) {
+  const { text, commentId, reportId } = req.body;
+  const userId = req.userId;
+
+  if (!text || !commentId || !reportId) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  try {
+    // Create a new reply in the database
+    const newReply = await prisma.comment.create({
+      data: {
+        text,
+        userId,
+        reportId,
+        parentId: commentId,
+      },
+    });
+
+    // Respond with the newly created reply
+    res.status(201).json(newReply);
+  } catch (error) {
+    console.error("Error posting reply:", error);
+    res.status(500).json({ message: "Error posting reply", error });
   }
 }
