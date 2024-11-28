@@ -103,26 +103,26 @@ function ReportPreview({ id, schoolname, image, body }) {
     }
   };
 
-  // const handleDelete = async () => {
-  //   const isConfirmed = window.confirm("Are you sure you want to delete this report?");
-  //   if (!isConfirmed) {
-  //     return;
-  //   }
+  const handleDelete = async () => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this report?");
+    if (!isConfirmed) {
+      return;
+    }
 
-  //   try {
-  //     await axios.delete(`${apiBase}/reports/${id}`, {
-  //       headers: { Authorization: `Bearer ${user.token}` },
-  //       withCredentials: true,
-  //     });
+    try {
+      await axios.delete(`${apiBase}/reports/${id}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+        withCredentials: true,
+      });
 
-  //     alert("Report deleted successfully!");
+      alert("Report deleted successfully!");
 
-  //     // Update the state to remove the deleted report
-  //     setReports((prevReports) => prevReports.filter((report) => report.id !== id));
-  //   } catch (err) {
-  //     console.error("Error deleting report", err);
-  //   }
-  // };
+      // Update the state to remove the deleted report
+      setReports((prevReports) => prevReports.filter((report) => report.id !== id));
+    } catch (err) {
+      console.error("Error deleting report", err);
+    }
+  };
 
   // Toggle visibility of comments section
   const toggleCommentsVisibility = () => {
