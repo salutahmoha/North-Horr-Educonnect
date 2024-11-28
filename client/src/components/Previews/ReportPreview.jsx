@@ -31,9 +31,8 @@ function ReportPreview({ id, schoolname, image, body }) {
   const [isCommenting, setIsCommenting] = useState(false);
   const [report, setReport] = useState(null);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-
-  // New state to toggle comment visibility
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
+  const [replies, setReplies] = useState({});
 
   const { user } = useUserStore();
 
@@ -93,7 +92,7 @@ function ReportPreview({ id, schoolname, image, body }) {
         {
           headers: { Authorization: `Bearer ${user.token}` },
           withCredentials: true,
-        },
+        }
       );
       setNewComment("");
       fetchComments();
@@ -114,20 +113,39 @@ function ReportPreview({ id, schoolname, image, body }) {
         headers: { Authorization: `Bearer ${user.token}` },
         withCredentials: true,
       });
-
       alert("Report deleted successfully!");
-
-      // Update the state to remove the deleted report
-      setReports((prevReports) => prevReports.filter((report) => report.id !== id));
+      // Additional logic to update state if report list exists
     } catch (err) {
       console.error("Error deleting report", err);
     }
   };
 
-  // Toggle visibility of comments section
+  const handleReplySubmit = async (commentId, replyText) => {
+    if (!user) {
+      alert("Please log in to reply.");
+      return;
+    }
+
+    try {
+      await axios.post(
+        `${apiBase}/replies`,
+        { text: replyText, commentId: commentId, reportId: id },
+        {
+          headers: { Authorization: `Bearer ${user.token}` },
+          withCredentials: true,
+        }
+      );
+      fetchComments(); // Reload the comments and replies
+    } catch (err) {
+      console.error("Error posting reply", err);
+    }
+  };
+
   const toggleCommentsVisibility = () => {
     setIsCommentsVisible((prev) => !prev);
   };
+
+  
 
   return (
     <ReportPreviewContainer>
@@ -183,15 +201,11 @@ function ReportPreview({ id, schoolname, image, body }) {
 
         <ActionButtons>
           <button onClick={handleLike}>
-            <FaThumbsUp
-              style={{ color: liked ? "#007bff" : "#000", cursor: "pointer" }}
-            />
+            <FaThumbsUp style={{ color: liked ? "#007bff" : "#000", cursor: "pointer" }} />
             <span style={{ marginLeft: "0.5rem" }}>{likes}</span>
           </button>
 
           <button onClick={toggleCommentsVisibility}>
-            {" "}
-            {/* Toggle visibility of comments */}
             <FaComment /> Comment
           </button>
 
@@ -200,20 +214,36 @@ function ReportPreview({ id, schoolname, image, body }) {
           </button>
         </ActionButtons>
 
-        {/* Conditional rendering of comments and comment input */}
         {isCommentsVisible && (
           <>
-            <div className="comment-mapped">
-              {comments.map((comment) => (
-                <div key={comment.id}>
-                  <p>
-                    {comment.user}: {comment.text}
-                  </p>
-                </div>
-              ))}
-            </div>
+           <div className="comment-mapped">
+  {comments.map((comment) => (
+    <div key={comment.id}>
+      <p>
+        {comment.user?.firstName || "Anonymous"}: {comment.text}
+      </p>
+      <button onClick={() => setReplies((prev) => ({ ...prev, [comment.id]: true }))}>
+        Reply
+      </button>
 
-            {/* Show CommentContainer directly */}
+      {/* Render replies if available */}
+      {replies[comment.id] && (
+        <CommentContainer>
+          <TextareaComment
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Write a reply..."
+          />
+          <SendCommentButton onClick={handleCommentSubmit}>
+            <BiSolidSend />
+          </SendCommentButton>
+        </CommentContainer>
+      )}
+    </div>
+  ))}
+</div>
+
+
             <CommentContainer>
               <TextareaComment
                 value={newComment}
