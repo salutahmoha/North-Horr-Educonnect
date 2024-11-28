@@ -1,9 +1,8 @@
-
 * {
   margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 html,
@@ -13,8 +12,9 @@ body {
 }
 
 :root {
-  --color-btn: #61dafb;
+  --color-btn: #18ca18;
   --color-white: #fff;
   --color-btn1: #18ca18;
   --color-form: #d5e1ec;
+  --color-bg: #d3efd3;
 }

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
@@ -8,7 +8,8 @@ export const FormContainer = styled.div`
   width: 70%;
   background: var(--color-bg);
   margin: 5rem auto;
-  padding: 3rem;
+  padding: 1rem;
+  border: 1px solid #333;
 `;
 
 export const Form = styled.form`
@@ -16,32 +17,30 @@ export const Form = styled.form`
 `;
 
 export const Title = styled.h3`
-  padding-bottom: 2rem;
+  padding-bottom: 1.4rem;
+  font-size: 2rem;
 `;
 
-export const Label = styled.label`
-  display: block;
-  margin-bottom: 0.5rem;
+export const ProfileLabel = styled.label`
+  font-weight: bold;
+  font-size: 1.2rem;
 `;
 
 export const Input = styled.input`
+  padding: 0.5rem;
   width: 100%;
-  padding: 1rem;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  border-radius: 0.4rem;
-  border: 1px solid #ccc;
+  margin-bottom: 0.5rem;
+  outline: none;
 `;
 
 export const UpdatePersonalInfoButton = styled.button`
-  margin-top: 2rem;
+  margin-top: 1rem;
   width: 100%;
-  padding: 1rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
   background: var(--color-btn);
   border: none;
-  height: 3rem;
-  border-radius: 0.4rem;
+  height: 2.5rem;
+  border-radius: 0.2rem;
   cursor: pointer;
   color: #fff;
   font-weight: 600;

@@ -11,7 +11,9 @@ function Comments({ reportId, user }) {
       try {
         const response = await axios.get(`/comments/${reportId}`);
         console.log(response.data); // Log the response data to check if it's an array
-        const fetchedComments = Array.isArray(response.data) ? response.data : [];
+        const fetchedComments = Array.isArray(response.data)
+          ? response.data
+          : [];
         setComments(fetchedComments);
       } catch (err) {
         console.error("Error fetching comments:", err);
@@ -22,38 +24,38 @@ function Comments({ reportId, user }) {
   }, [reportId]);
 
   // Handle comment submission
-  const handleCommentSubmit = async (e) => {
-    e.preventDefault();
+  // const handleCommentSubmit = async (e) => {
+  //   e.preventDefault();
 
-    if (!user) {
-      alert("Please log in to comment.");
-      return;
-    }
+  //   if (!user) {
+  //     alert("Please log in to comment.");
+  //     return;
+  //   }
 
-    if (!newComment.trim()) {
-      alert("Comment cannot be empty.");
-      return;
-    }
+  //   if (!newComment.trim()) {
+  //     alert("Comment cannot be empty.");
+  //     return;
+  //   }
 
-    try {
-      const response = await axios.post(
-        "/comments",
-        { text: newComment, reportId },
-        {
-          headers: { Authorization: `Bearer ${user.token}` },
-        }
-      );
-      setComments([...comments, response.data]); // Add the new comment to the list
-      setNewComment(""); // Clear the input field
-    } catch (err) {
-      console.error("Error posting comment:", err);
-    }
-  };
+  //   try {
+  //     const response = await axios.post(
+  //       "/comments",
+  //       { text: newComment, reportId },
+  //       {
+  //         headers: { Authorization: `Bearer ${user.token}` },
+  //       }
+  //     );
+  //     setComments([...comments, response.data]); // Add the new comment to the list
+  //     setNewComment(""); // Clear the input field
+  //   } catch (err) {
+  //     console.error("Error posting comment:", err);
+  //   }
+  // };
 
   return (
     <div>
-      <h3>Comments</h3>
-      <div>
+      {/* <h3>Comments</h3> */}
+      {/* <div>
         {comments.length > 0 ? (
           comments.map((comment) => (
             <div key={comment.id} style={{ marginBottom: "1rem" }}>
@@ -65,9 +67,9 @@ function Comments({ reportId, user }) {
         ) : (
           <p>No comments yet. Be the first to comment!</p>
         )}
-      </div>
+      </div> */}
 
-      {user && (
+      {/* {user && (
         <form onSubmit={handleCommentSubmit}>
           <textarea
             value={newComment}
@@ -78,7 +80,7 @@ function Comments({ reportId, user }) {
           />
           <button type="submit">Post Comment</button>
         </form>
-      )}
+      )} */}
     </div>
   );
 }

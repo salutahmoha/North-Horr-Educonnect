@@ -6,11 +6,11 @@ justify-content: space-between;
 align-items: center;
 padding: 5rem 0 2rem 0;
 margin:  0 3rem;
-`
+`;
 export const AboutText = Styled.div`
 width: 45%;
 height: 20rem;
-`
+`;
 export const AboutHeading = Styled.h2`
 font-size: 2.5rem;
 font-weight: bold;

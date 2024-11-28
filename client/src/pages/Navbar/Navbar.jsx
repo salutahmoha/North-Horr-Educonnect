@@ -1,4 +1,4 @@
-import { Link , useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import logo from "../../assets/NHClogo-1.png";
 
@@ -63,7 +63,11 @@ function Navbar() {
         </Link>
       </div>
       <div className="nav-btn">
-        <button className="btn-navbar" style={styles.button} onClick={() => navigate("/SignUp")}>
+        <button
+          className="btn-navbar"
+          style={styles.button}
+          onClick={() => navigate("/SignUp")}
+        >
           Sign In
         </button>
       </div>

@@ -28,4 +28,4 @@ color: var(--color-white);
 font-size: 1.5rem;
 padding-top: 1.5rem;
 margin: 0 2rem;
-`
+`;

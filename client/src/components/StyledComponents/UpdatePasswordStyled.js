@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const UpdatePasswordContainer = styled.div`
   width: 100%;
@@ -8,21 +8,27 @@ export const UpdatePasswordForm = styled.form`
   width: 70%;
   background: var(--color-bg);
   margin: 5rem auto;
-  padding: 2.5rem;
+  padding: 1rem;
+  border: 1px solid #333;
 `;
 
 export const Heading = styled.h3`
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
+  font-size: 2rem;
 `;
 
 export const PasswordField = styled.div`
   position: relative;
 `;
-
+export const UpdatePasswordLabel = styled.label`
+  font-weight: bold;
+  font-size: 1.2rem;
+`;
 export const PasswordInput = styled.input`
+  padding: 0.5rem;
   width: 100%;
-  padding-right: 2.5rem; /* Add space for the icon inside the input */
-  box-sizing: border-box;
+  margin-bottom: 0.5rem;
+  outline: none;
 `;
 
 export const EyeIcon = styled.div`
@@ -36,14 +42,13 @@ export const EyeIcon = styled.div`
 `;
 
 export const Button = styled.button`
-  margin-top: 2rem;
+  margin-top: 1rem;
   width: 100%;
-  padding: 3rem auto;
-  font-size: 2rem;
+  font-size: 1.5rem;
   background: var(--color-btn);
   border: none;
-  height: 3rem;
-  border-radius: .4rem;
+  height: 2.5rem;
+  border-radius: 0.2rem;
   cursor: pointer;
   color: #fff;
   font-weight: 600;

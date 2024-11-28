@@ -32,8 +32,10 @@ function Main() {
 
   return (
     <>
-      {location.pathname !== "/Write" && 
-      location.pathname !== "/Profile" &&<Navbar />} {/* Conditionally render Navbar */}
+      {location.pathname !== "/Write" && location.pathname !== "/Profile" && (
+        <Navbar />
+      )}{" "}
+      {/* Conditionally render Navbar */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/About" element={<About />} />

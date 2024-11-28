@@ -1,6 +1,6 @@
 import styled from "styled-components";
 export const SignInContainer1 = styled.div`
-/* height: 50vh; */
+  /* height: 50vh; */
 `;
 export const SignInContainer = styled.form`
   display: flex;
@@ -22,19 +22,19 @@ export const SignInHeading = styled.h2`
 `;
 
 export const SignInField = styled.div`
-display: flex;
+  display: flex;
   align-items: center;
   margin-bottom: 1rem;
 `;
 export const SignInLabel = styled.label`
- font-size: 1.2rem;
+  font-size: 1.2rem;
   font-weight: bold;
   width: 25%;
   text-align: left;
 `;
 
 export const SignInInput = styled.input`
-width: 75%;
+  width: 75%;
   height: 2rem;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -43,12 +43,11 @@ width: 75%;
 `;
 
 export const SignInButton = styled.button`
-background: var(--color-btn1);
-font-size: 1.2rem;
-padding: 0.5rem 1rem;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-text-align: center;
+  background: var(--color-btn1);
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
 `;
-

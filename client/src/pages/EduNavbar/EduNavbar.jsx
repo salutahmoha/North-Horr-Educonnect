@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   EduNavbarContainer,
   LinkStyled,
@@ -6,9 +6,9 @@ import {
   NavListingsStyled,
   LogoStyled,
   LiStyled,
-} from '../../components/StyledComponents/EduNavbarStyled';
-import { Link, useNavigate } from 'react-router-dom';
-import useUserStore from '../../../../server/src/store/useStore'; // Ensure the correct path to your store
+} from "../../components/StyledComponents/EduNavbarStyled";
+import { Link, useNavigate } from "react-router-dom";
+import useUserStore from "../../../../server/src/store/useStore"; // Ensure the correct path to your store
 import logo from "../../assets/NHClogo-1.png";
 
 function EduNavbar() {
@@ -18,7 +18,7 @@ function EduNavbar() {
 
   const handleLogout = () => {
     logoutUser(); // Clear user data in the store
-    navigate('/SignIn'); // Redirect to the Sign-In page
+    navigate("/SignIn"); // Redirect to the Sign-In page
   };
 
   return (
@@ -27,13 +27,24 @@ function EduNavbar() {
 
       <NavListingsStyled>
         <UlStyled>
-          <LinkStyled to="/Reports"><LiStyled>Reports</LiStyled></LinkStyled>
-          <LinkStyled to="/Write"><LiStyled>Write</LiStyled></LinkStyled>
-          <LinkStyled to="/Profile"><LiStyled>Profile</LiStyled></LinkStyled>
+          <LinkStyled to="/Reports">
+            <LiStyled>Reports</LiStyled>
+          </LinkStyled>
+          <LinkStyled to="/Write">
+            <LiStyled>Write</LiStyled>
+          </LinkStyled>
+          <LinkStyled to="/Profile">
+            <LiStyled>Profile</LiStyled>
+          </LinkStyled>
           <li
             onClick={handleLogout}
             className="logout"
-            style={{ cursor: 'pointer', padding: '0 rem 2rem', color: 'red', fontSize: '1.2rem' }}
+            style={{
+              cursor: "pointer",
+              padding: "0 rem 2rem",
+              color: "red",
+              fontSize: "1.2rem",
+            }}
           >
             Logout
           </li>
