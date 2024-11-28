@@ -52,27 +52,27 @@ export async function fetchingAllReports(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
-// // fetching single report
-// export async function fetchingReportById(req, res) {
-//     const { id } = req.params; // Get report ID from URL parameters
-//     try {
-//       const report = await prisma.report.findUnique({
-//         where: { id }, // Find the report by ID
-//         include: {
-//           user: true, // Include the associated user details (owner of the report)
-//         },
-//       });
+// fetching single report
+export async function fetchingReportById(req, res) {
+    const { id } = req.params; // Get report ID from URL parameters
+    try {
+      const report = await prisma.report.findUnique({
+        where: { id }, // Find the report by ID
+        include: {
+          user: true, // Include the associated user details (owner of the report)
+        },
+      });
 
-//       if (!report) {
-//         return res.status(404).json({ message: "Report not found" });
-//       }
+      if (!report) {
+        return res.status(404).json({ message: "Report not found" });
+      }
 
-//       res.status(200).json(report); // Return the report with the associated user
-//     } catch (e) {
-//       console.error(e);
-//       res.status(500).json({ message: "Something went wrong" });
-//     }
-//   }
+      res.status(200).json(report); // Return the report with the associated user
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ message: "Something went wrong" });
+    }
+  }
 
 // create profile
 export async function createProfile(req, res) {
