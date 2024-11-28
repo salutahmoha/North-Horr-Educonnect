@@ -92,7 +92,7 @@ function ReportPreview({ id, schoolname, image, body }) {
         {
           headers: { Authorization: `Bearer ${user.token}` },
           withCredentials: true,
-        }
+        },
       );
       setNewComment("");
       fetchComments();
@@ -103,7 +103,9 @@ function ReportPreview({ id, schoolname, image, body }) {
   };
 
   const handleDelete = async () => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this report?");
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this report?",
+    );
     if (!isConfirmed) {
       return;
     }
@@ -133,7 +135,7 @@ function ReportPreview({ id, schoolname, image, body }) {
         {
           headers: { Authorization: `Bearer ${user.token}` },
           withCredentials: true,
-        }
+        },
       );
       fetchComments(); // Reload the comments and replies
     } catch (err) {
@@ -144,8 +146,6 @@ function ReportPreview({ id, schoolname, image, body }) {
   const toggleCommentsVisibility = () => {
     setIsCommentsVisible((prev) => !prev);
   };
-
-  
 
   return (
     <ReportPreviewContainer>
@@ -201,7 +201,9 @@ function ReportPreview({ id, schoolname, image, body }) {
 
         <ActionButtons>
           <button onClick={handleLike}>
-            <FaThumbsUp style={{ color: liked ? "#007bff" : "#000", cursor: "pointer" }} />
+            <FaThumbsUp
+              style={{ color: liked ? "#007bff" : "#000", cursor: "pointer" }}
+            />
             <span style={{ marginLeft: "0.5rem" }}>{likes}</span>
           </button>
 
@@ -216,33 +218,36 @@ function ReportPreview({ id, schoolname, image, body }) {
 
         {isCommentsVisible && (
           <>
-           <div className="comment-mapped">
-  {comments.map((comment) => (
-    <div key={comment.id}>
-      <p>
-        {comment.user?.firstName || "Anonymous"}: {comment.text}
-      </p>
-      <button onClick={() => setReplies((prev) => ({ ...prev, [comment.id]: true }))}>
-        Reply
-      </button>
+            <div className="comment-mapped">
+              {comments.map((comment) => (
+                <div key={comment.id}>
+                  <p>
+                    {comment.user?.firstName || "Anonymous"}: {comment.text}
+                  </p>
+                  <button
+                    onClick={() =>
+                      setReplies((prev) => ({ ...prev, [comment.id]: true }))
+                    }
+                  >
+                    Reply
+                  </button>
 
-      {/* Render replies if available */}
-      {replies[comment.id] && (
-        <CommentContainer>
-          <TextareaComment
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Write a reply..."
-          />
-          <SendCommentButton onClick={handleCommentSubmit}>
-            <BiSolidSend />
-          </SendCommentButton>
-        </CommentContainer>
-      )}
-    </div>
-  ))}
-</div>
-
+                  {/* Render replies if available */}
+                  {replies[comment.id] && (
+                    <CommentContainer>
+                      <TextareaComment
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        placeholder="Write a reply..."
+                      />
+                      <SendCommentButton onClick={handleCommentSubmit}>
+                        <BiSolidSend />
+                      </SendCommentButton>
+                    </CommentContainer>
+                  )}
+                </div>
+              ))}
+            </div>
 
             <CommentContainer>
               <TextareaComment
