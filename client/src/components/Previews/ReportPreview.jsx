@@ -94,9 +94,9 @@ function ReportPreview({ id, schoolname, image, body }) {
           withCredentials: true,
         },
       );
-      setNewComment("");
-      fetchComments();
-      setIsCommenting(false);
+      setNewComment(""); // Clear the comment input
+      fetchComments(); // Refresh the comments list
+      setIsCommenting(false); // Hide the comment container
     } catch (err) {
       console.error("Error posting comment", err);
     }
@@ -130,19 +130,20 @@ function ReportPreview({ id, schoolname, image, body }) {
 
     try {
       await axios.post(
-        `${apiBase}/replies`,
+        `${apiBase}/comments/reply`,
         { text: replyText, commentId: commentId, reportId: id },
         {
           headers: { Authorization: `Bearer ${user.token}` },
           withCredentials: true,
         },
       );
-      fetchComments(); // Reload the comments and replies
+      setNewComment(""); // Clear the reply input
+      setReplies((prev) => ({ ...prev, [commentId]: false })); // Close the reply container
+      fetchComments(); // Refresh the comments and replies
     } catch (err) {
       console.error("Error posting reply", err);
     }
   };
-
   const toggleCommentsVisibility = () => {
     setIsCommentsVisible((prev) => !prev);
   };
@@ -220,19 +221,24 @@ function ReportPreview({ id, schoolname, image, body }) {
           <>
             <div className="comment-mapped">
               {comments.map((comment) => (
-                <div key={comment.id}>
+                <div key={comment.id} style={{ marginBottom: "1rem" }}>
+                  {/* Parent Comment */}
                   <p>
-                    {comment.user?.firstName || "Anonymous"}: {comment.text}
+                    <strong>{comment.user?.firstName || "Anonymous"}:</strong>{" "}
+                    {comment.text}
                   </p>
                   <button
                     onClick={() =>
-                      setReplies((prev) => ({ ...prev, [comment.id]: true }))
+                      setReplies((prev) => ({
+                        ...prev,
+                        [comment.id]: !prev[comment.id],
+                      }))
                     }
                   >
                     Reply
                   </button>
 
-                  {/* Render replies if available */}
+                  {/* Render Reply Input for the Comment */}
                   {replies[comment.id] && (
                     <CommentContainer>
                       <TextareaComment
@@ -240,15 +246,42 @@ function ReportPreview({ id, schoolname, image, body }) {
                         onChange={(e) => setNewComment(e.target.value)}
                         placeholder="Write a reply..."
                       />
-                      <SendCommentButton onClick={handleCommentSubmit}>
+                      <SendCommentButton
+                        onClick={() =>
+                          handleReplySubmit(comment.id, newComment)
+                        }
+                      >
                         <BiSolidSend />
                       </SendCommentButton>
                     </CommentContainer>
+                  )}
+
+                  {/* Render Replies */}
+                  {comment.replies?.length > 0 && (
+                    <div
+                      style={{
+                        paddingLeft: "1rem",
+                        borderLeft: "2px solid #ccc",
+                        marginTop: "0.5rem",
+                      }}
+                    >
+                      {comment.replies.map((reply) => (
+                        <div key={reply.id} style={{ marginBottom: "0.5rem" }}>
+                          <p>
+                            <strong>
+                              {reply.user?.firstName || "Anonymous"}:
+                            </strong>{" "}
+                            {reply.text}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </div>
               ))}
             </div>
 
+            {/* Input for Adding New Comments */}
             <CommentContainer>
               <TextareaComment
                 value={newComment}

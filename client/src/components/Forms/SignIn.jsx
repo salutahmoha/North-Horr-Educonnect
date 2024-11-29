@@ -43,7 +43,7 @@ function SignIn() {
       if (user.role === "admin") {
         navigate("/Write"); // Navigate to admin page
       } else {
-        navigate("/About"); // Navigate to user page
+        navigate("/Write"); // Navigate to user page
       }
       toast.success("Login Successful", { autoClose: 3000 });
     },
