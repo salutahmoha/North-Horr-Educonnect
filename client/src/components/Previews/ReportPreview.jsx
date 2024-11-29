@@ -33,6 +33,7 @@ function ReportPreview({ id, schoolname, image, body }) {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [replies, setReplies] = useState({});
+  const [commentLikes, setCommentLikes] = useState({});
 
   const { user } = useUserStore();
 
@@ -76,6 +77,21 @@ function ReportPreview({ id, schoolname, image, body }) {
     setLiked((prevLiked) => {
       setLikes((prevLikes) => (prevLiked ? prevLikes - 1 : prevLikes + 1));
       return !prevLiked;
+    });
+  };
+
+  const handleCommentLike = (commentId) => {
+    setCommentLikes((prevLikes) => {
+      const isLiked = prevLikes[commentId]?.liked || false;
+      const currentLikes = prevLikes[commentId]?.likes || 0;
+
+      return {
+        ...prevLikes,
+        [commentId]: {
+          liked: !isLiked,
+          likes: isLiked ? currentLikes - 1 : currentLikes + 1,
+        },
+      };
     });
   };
 
@@ -227,6 +243,23 @@ function ReportPreview({ id, schoolname, image, body }) {
                     <strong>{comment.user?.firstName || "Anonymous"}:</strong>{" "}
                     {comment.text}
                   </p>
+                  <button
+                    onClick={() => handleCommentLike(comment.id)}
+                    style={{ marginRight: "0.5rem" }}
+                  >
+                    <FaThumbsUp
+                      style={{
+                        color: commentLikes[comment.id]?.liked
+                          ? "#007bff"
+                          : "#000",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <span style={{ marginLeft: "0.5rem" }}>
+                      {commentLikes[comment.id]?.likes || 0}
+                    </span>
+                  </button>
+
                   <button
                     onClick={() =>
                       setReplies((prev) => ({
