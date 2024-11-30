@@ -14,7 +14,7 @@ import {
   updatePersonalInformation,
   fetchProfileImage,
   deleteReport,
-  getOwnerDetails,
+  // getOwnerDetails,
   fetchingReportById,
 } from "./controllers/reports.controllers.js";
 import {
@@ -114,6 +114,9 @@ app.post("/auth/login", loginUser);
 // Create profile
 app.post("/users/profile", verifyToken, createProfile);
 
+// fetch report by id
+app.get("/report/:id", fetchingReportById);
+
 // Get profile
 app.get("/users/profile", verifyToken, getUserProfie);
 
@@ -144,14 +147,11 @@ app.delete("/reports/:id", deleteVerify, deleteReport);
 // Delete comment - Admin only delete a comment
 app.delete("/comments/:id", deleteVerify, deleteComment);
 
-// get ownerdetails
-app.get("/reports/:id", getOwnerDetails);
+// // get ownerdetails
+// app.get("/reports/:id", getOwnerDetails);
 
 // fetch profile image
 app.get("/users/profile/:id", fetchProfileImage);
-
-// fetch report by id
-app.get("/reports/:id", fetchingReportById);
 
 // add reply
 app.post("/comments/reply", verifyToken, addReply);

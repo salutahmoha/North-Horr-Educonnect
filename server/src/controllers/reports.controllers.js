@@ -54,23 +54,42 @@ export async function fetchingAllReports(req, res) {
 }
 // fetching single report
 export async function fetchingReportById(req, res) {
-  const { id } = req.params; // Get report ID from URL parameters
+  const { id } = req.params;
+  // Get report ID from URL parameters
+  console.log(id);
+
+  // Basic validation for ID
+  if (!id) {
+    return res.status(400).json({ message: "Invalid report ID" });
+  }
+
   try {
     const report = await prisma.report.findUnique({
-      where: { id }, // Find the report by ID
+      where: { id },
       include: {
-        user: true, // Include the associated user details (owner of the report)
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            profile: {
+              select: {
+                profileImage: true,
+              },
+            },
+          },
+        },
       },
     });
+    // Log the report object to inspect it
 
     if (!report) {
       return res.status(404).json({ message: "Report not found" });
     }
 
-    res.status(200).json(report); // Return the report with the associated user
+    res.status(200).json(report);
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: "Something went wrong" });
+    console.error("Error fetching report:", e);
+    res.status(500).json({ message: e.message });
   }
 }
 
@@ -116,7 +135,7 @@ export async function createProfile(req, res) {
         secondaryEmail,
         profileImage: imageUrl,
         user: {
-          connect: { id: userId }, // Ensure this connects the profile to the authenticated user
+          connect: { id: userId }, 
         },
       },
     });
@@ -131,7 +150,7 @@ export async function createProfile(req, res) {
 // Getting profile for  logged in user
 export async function getUserProfie(req, res) {
   try {
-    const userId = req.userId; // Assuming verifyToken sets req.userId
+    const userId = req.userId; 
 
     // Fetch profile based on the authenticated user's ID
     const profile = await prisma.profile.findUnique({
@@ -202,12 +221,11 @@ export async function updateProfile(req, res) {
 }
 
 export async function fetchProfileImage(req, res) {
-  const { id: userId } = req.params; // Correctly map 'id' to 'userId'
+  const { id: userId } = req.params; 
 
   try {
-    // Fetch the profile data based on the userId
     const profile = await prisma.profile.findUnique({
-      where: { userId }, // Correctly use 'userId'
+      where: { userId }, 
       select: { profileImage: true },
     });
 
@@ -278,46 +296,9 @@ export async function deleteReport(req, res) {
       .json({ message: "Report deleted successfully", report: deletedReport });
   } catch (error) {
     console.error("Error deleting report:", error);
-    return res
-      .status(500)
-      .json({
-        message: "An error occurred while deleting the report.",
-        error: error.message,
-      });
-  }
-}
-
-export async function getOwnerDetails(req, res) {
-  try {
-    const report = await prisma.report.findUnique({
-      where: { id: req.params.id },
-      include: {
-        user: {
-          select: {
-            firstName: true,
-            lastName: true,
-            profileImage: true,
-          },
-        },
-        comments: true, // Ensure you include comments
-      },
+    return res.status(500).json({
+      message: "An error occurred while deleting the report.",
+      error: error.message,
     });
-
-    if (!report) {
-      return res.status(404).json({ message: "Report not found" });
-    }
-
-    res.json({
-      ...report,
-      owner: {
-        firstName: report.user.firstName,
-        lastName: report.user.lastName,
-        profileImage: report.user.profileImage || "default-avatar-url",
-      },
-      comments: report.comments || [], // Ensure comments is always an array
-    });
-  } catch (error) {
-    console.error("Error fetching report:", error);
-    res.status(500).json({ message: "Server error" });
   }
 }
