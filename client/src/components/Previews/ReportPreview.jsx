@@ -52,7 +52,7 @@ function ReportPreview({ id, schoolname, image, body }) {
 
   const fetchReportDetails = async () => {
     try {
-      const response = await axios.get(`${apiBase}/reports/${id}`);
+      const response = await axios.get(`${apiBase}/report/${id}`);
       setReport(response.data);
       setComments(response.data.comments || []);
       setLikes(response.data.likes || 0);
@@ -170,15 +170,22 @@ function ReportPreview({ id, schoolname, image, body }) {
         <ReportNav>
           <OwnerProfile>
             <OwnerProfileImage>
-              {user?.user?.profileImage ? (
-                <img src={user.user.profileImage} alt="User Profile" />
+              {report?.user.profile.profileImage ? (
+                <img
+                  src={report?.user.profile.profileImage}
+                  alt="User Profile"
+                />
               ) : (
                 <FontAwesomeIcon icon={faUser} size="3x" />
               )}
             </OwnerProfileImage>
 
             <div>
-              <OwnerName>{`${user?.user?.firstName || ""} ${user?.user?.lastName || ""}`}</OwnerName>
+              <OwnerName>
+                {report?.user?.firstName && report?.user?.lastName
+                  ? `${report?.user?.firstName} ${report?.user?.lastName}`
+                  : "Unknown"}
+              </OwnerName>
               <p>
                 {report
                   ? new Date(report.createdAt).toLocaleString("en-US", {

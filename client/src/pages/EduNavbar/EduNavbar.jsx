@@ -50,7 +50,7 @@ function EduNavbar() {
           </li>
           {user ? (
             <LinkStyled to="/user">
-              <li>Hello {user.firstName}👋</li>
+              <li>Hello {user.user.firstName}👋</li>
             </LinkStyled>
           ) : (
             <LinkStyled to="/SignIn">
