@@ -119,6 +119,11 @@ function ReportPreview({ id, schoolname, image, body }) {
   };
 
   const handleDelete = async () => {
+    if (!user || user.role !== "admin") {
+      alert("Only an admin can delete a report.");
+      return;
+    }
+
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this report?",
     );
@@ -162,6 +167,27 @@ function ReportPreview({ id, schoolname, image, body }) {
   };
   const toggleCommentsVisibility = () => {
     setIsCommentsVisible((prev) => !prev);
+  };
+
+  const handleShare = () => {
+    const shareData = {
+      title: schoolname,
+      text: `Check out this report from ${schoolname}!`,
+      url: window.location.href, // Use the current page URL
+    };
+
+    if (navigator.share) {
+      navigator
+        .share(shareData)
+        .then(() => console.log("Report shared successfully"))
+        .catch((err) => console.error("Error sharing", err));
+    } else {
+      // Fallback for unsupported browsers
+      navigator.clipboard
+        .writeText(shareData.url)
+        .then(() => alert("Link copied to clipboard!"))
+        .catch((err) => console.error("Failed to copy link", err));
+    }
   };
 
   return (
@@ -235,7 +261,7 @@ function ReportPreview({ id, schoolname, image, body }) {
             <FaComment /> Comment
           </button>
 
-          <button>
+          <button onClick={handleShare}>
             <FaShare /> Share
           </button>
         </ActionButtons>
