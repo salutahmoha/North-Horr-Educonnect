@@ -30,6 +30,7 @@ function ProfileUpdate() {
     axios
       .get(`${apiBase}/users/profile`, { withCredentials: true })
       .then((response) => {
+        console.log("Fetched Profile Data:", response.data);
         const profileData = response.data;
         setPhoneNumber(profileData.phoneNumber || "");
         setOccupation(profileData.occupation || "");
@@ -39,10 +40,7 @@ function ProfileUpdate() {
         setProfileExists(true);
       })
       .catch((err) => {
-        console.log(
-          "No existing profile found or error fetching profile:",
-          err,
-        );
+        console.log("Error fetching profile:", err);
         setProfileExists(false);
       });
   }, []);
@@ -83,19 +81,19 @@ function ProfileUpdate() {
     },
     onSuccess: (data) => {
       setProfileExists(true);
-
-      // Update state with updated profile
       setPhoneNumber(data.phoneNumber);
       setOccupation(data.occupation);
       setBio(data.bio);
       setSecondaryEmail(data.secondaryEmail);
-      setProfileImage(data.profileImage);
-
+      setProfileImage(
+        data.profileImage || "https://example.com/default-avatar.png",
+      );
       toast("Profile successfully updated!", {
         theme: "toast-success",
         duration: 3000,
       });
     },
+
     onError: (error) => {
       console.error("Error during mutation:", error);
       toast(error.message, { theme: "toast-error", duration: 3000 });
