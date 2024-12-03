@@ -6,7 +6,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model User {
   id           String    @id @default(uuid())
   firstName    String
@@ -15,9 +14,10 @@ model User {
   username     String    @unique
   password     String
   role         String    @default("user")
-  reports      Report[]
-  comments     Comment[]
+  reports      Report[]  // Reports authored by the user
+  comments     Comment[] // Comments made by the user
   profile      Profile?  // A user can have one profile
+  likes        Like[]    // A user can like many reports and comments
 
   @@map("users")
 }
@@ -25,13 +25,14 @@ model User {
 model Report {
   id         String    @id @default(uuid())
   schoolname String
-  image      String? 
+  image      String?
   body       String
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   owner      String
   user       User      @relation(fields: [owner], references: [id], onDelete: Cascade)
-  comments   Comment[]
+  comments   Comment[] // Comments on the report
+  likes      Like[]    // Likes on the report
 
   @@map("reports")
 }
@@ -49,6 +50,7 @@ model Comment {
   report    Report    @relation(fields: [reportId], references: [id], onDelete: Cascade)
   parent    Comment?  @relation("ParentComment", fields: [parentId], references: [id], onDelete: SetNull)
   replies   Comment[] @relation("ParentComment")
+  likes     Like[]    // Likes on the comment
 
   @@map("comments")
 }
@@ -68,3 +70,20 @@ model Profile {
 
   @@map("profiles")
 }
+
+model Like {
+  id        String  @id @default(uuid())
+  userId    String
+  reportId  String?
+  commentId String?
+
+  user      User    @relation(fields: [userId], references: [id])
+  report    Report? @relation(fields: [reportId], references: [id])
+  comment   Comment? @relation(fields: [commentId], references: [id])
+
+  @@unique([userId, reportId])
+  @@unique([userId, commentId])
+
+   @@map("likes")
+}
+

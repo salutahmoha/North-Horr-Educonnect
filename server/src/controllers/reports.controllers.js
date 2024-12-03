@@ -135,7 +135,7 @@ export async function createProfile(req, res) {
         secondaryEmail,
         profileImage: imageUrl,
         user: {
-          connect: { id: userId }, 
+          connect: { id: userId },
         },
       },
     });
@@ -150,7 +150,7 @@ export async function createProfile(req, res) {
 // Getting profile for  logged in user
 export async function getUserProfie(req, res) {
   try {
-    const userId = req.userId; 
+    const userId = req.userId;
 
     // Fetch profile based on the authenticated user's ID
     const profile = await prisma.profile.findUnique({
@@ -221,11 +221,11 @@ export async function updateProfile(req, res) {
 }
 
 export async function fetchProfileImage(req, res) {
-  const { id: userId } = req.params; 
+  const { id: userId } = req.params;
 
   try {
     const profile = await prisma.profile.findUnique({
-      where: { userId }, 
+      where: { userId },
       select: { profileImage: true },
     });
 

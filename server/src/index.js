@@ -22,6 +22,8 @@ import {
   getComments,
   deleteComment,
   addReply,
+  likeReport,
+  likeComment,
 } from "./controllers/commentController.js";
 import verifyToken from "./middleware/verifyToken.js";
 import validateReport from "./middleware/validateReport.js";
@@ -147,13 +149,16 @@ app.delete("/reports/:id", deleteVerify, deleteReport);
 // Delete comment - Admin only delete a comment
 app.delete("/comments/:id", deleteVerify, deleteComment);
 
-// // get ownerdetails
-// app.get("/reports/:id", getOwnerDetails);
-
 // fetch profile image
 app.get("/users/profile/:id", fetchProfileImage);
 
 // add reply
 app.post("/comments/reply", verifyToken, addReply);
+
+// liking a report
+app.post("/report/:id/like", verifyToken, likeReport);
+
+// liking a comment
+app.post("/comments/:commentId/like", verifyToken, likeComment);
 
 app.listen(4000, () => console.log("Server running on http://localhost:4000"));
