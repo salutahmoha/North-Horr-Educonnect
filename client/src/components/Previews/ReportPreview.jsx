@@ -31,6 +31,7 @@ function ReportPreview({ id, schoolname, image, body }) {
   const [isCommenting, setIsCommenting] = useState(false);
   const [report, setReport] = useState(null);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [activeComment, setActiveComment] = useState(null);
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [replies, setReplies] = useState({});
   const [commentLikes, setCommentLikes] = useState({});
@@ -52,10 +53,15 @@ function ReportPreview({ id, schoolname, image, body }) {
 
   const fetchReportDetails = async () => {
     try {
-      const response = await axios.get(`${apiBase}/report/${id}`);
-      setReport(response.data);
-      setComments(response.data.comments || []);
-      setLikes(response.data.likes || 0);
+      const response = await axios.get(`${apiBase}/report/${id}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+        withCredentials: true,
+      });
+
+      const reportData = response.data;
+      setReport(reportData);
+      setLikes(reportData.likes?.length || 0); // Use the length of the likes array if it exists
+      setLiked(reportData.likes?.some((like) => like.userId === user.id)); // Check if the user has already liked the report
     } catch (err) {
       console.error("Error fetching report details", err);
     }
@@ -73,26 +79,29 @@ function ReportPreview({ id, schoolname, image, body }) {
     setIsMenuVisible((prev) => !prev);
   };
 
-  const handleLike = () => {
-    setLiked((prevLiked) => {
-      setLikes((prevLikes) => (prevLiked ? prevLikes - 1 : prevLikes + 1));
-      return !prevLiked;
-    });
-  };
+  const handleLike = async () => {
+    if (!user) {
+      alert("Please log in to like this report.");
+      return;
+    }
 
-  const handleCommentLike = (commentId) => {
-    setCommentLikes((prevLikes) => {
-      const isLiked = prevLikes[commentId]?.liked || false;
-      const currentLikes = prevLikes[commentId]?.likes || 0;
-
-      return {
-        ...prevLikes,
-        [commentId]: {
-          liked: !isLiked,
-          likes: isLiked ? currentLikes - 1 : currentLikes + 1,
+    try {
+      const response = await axios.post(
+        `${apiBase}/report/${id}/like`, // Endpoint to like the report
+        {}, // No body needed for the like action
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`, // Include user token for authentication
+          },
+          withCredentials: true, // Ensure cookies are sent
         },
-      };
-    });
+      );
+
+      setLikes(response.data.likes); // Update the likes count
+      setLiked(!liked); // Toggle the liked state
+    } catch (error) {
+      console.error("Error liking the report", error); // Log any errors to the console
+    }
   };
 
   const handleCommentSubmit = async () => {
@@ -111,6 +120,7 @@ function ReportPreview({ id, schoolname, image, body }) {
         },
       );
       setNewComment(""); // Clear the comment input
+      setActiveComment(null); // Close the comment container
       fetchComments(); // Refresh the comments list
       setIsCommenting(false); // Hide the comment container
     } catch (err) {
@@ -169,26 +179,56 @@ function ReportPreview({ id, schoolname, image, body }) {
     setIsCommentsVisible((prev) => !prev);
   };
 
-  const handleShare = () => {
-    const shareData = {
-      title: schoolname,
-      text: `Check out this report from ${schoolname}!`,
-      url: window.location.href, // Use the current page URL
-    };
+  // const handleShare = () => {
+  //   const shareData = {
+  //     title: schoolname,
+  //     text: `Check out this report from ${schoolname}!`,
+  //     url: window.location.href, // Use the current page URL
+  //   };
 
-    if (navigator.share) {
-      navigator
-        .share(shareData)
-        .then(() => console.log("Report shared successfully"))
-        .catch((err) => console.error("Error sharing", err));
-    } else {
-      // Fallback for unsupported browsers
-      navigator.clipboard
-        .writeText(shareData.url)
-        .then(() => alert("Link copied to clipboard!"))
-        .catch((err) => console.error("Failed to copy link", err));
-    }
-  };
+  //   if (navigator.share) {
+  //     navigator
+  //       .share(shareData)
+  //       .then(() => console.log("Report shared successfully"))
+  //       .catch((err) => console.error("Error sharing", err));
+  //   } else {
+  //     // Fallback for unsupported browsers
+  //     navigator.clipboard
+  //       .writeText(shareData.url)
+  //       .then(() => alert("Link copied to clipboard!"))
+  //       .catch((err) => console.error("Failed to copy link", err));
+  //   }
+  // };
+
+  // const handleCommentLike = async (commentId) => {
+  //   if (!user) {
+  //     alert("Please log in to like this comment.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       `${apiBase}/comments/${commentId}/like`, // Endpoint to like the comment
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${user.token}`,
+  //         },
+  //         withCredentials: true,
+  //       },
+  //     );
+
+  //     setCommentLikes((prev) => ({
+  //       ...prev,
+  //       [commentId]: {
+  //         liked: response.data.liked,
+  //         likes: response.data.likesCount,
+  //       },
+  //     }));
+  //   } catch (error) {
+  //     console.error("Error liking the comment", error);
+  //   }
+  // };
 
   return (
     <ReportPreviewContainer>
@@ -196,13 +236,15 @@ function ReportPreview({ id, schoolname, image, body }) {
         <ReportNav>
           <OwnerProfile>
             <OwnerProfileImage>
-              {report?.user.profile.profileImage ? (
+              {report?.user?.profile?.profileImage ? (
                 <img
-                  src={report?.user.profile.profileImage}
+                  src={report.user.profile.profileImage}
                   alt="User Profile"
                 />
-              ) : (
+              ) : report?.user ? (
                 <FontAwesomeIcon icon={faUser} size="3x" />
+              ) : (
+                <span>Unknown User</span>
               )}
             </OwnerProfileImage>
 
@@ -256,7 +298,6 @@ function ReportPreview({ id, schoolname, image, body }) {
             />
             <span style={{ marginLeft: "0.5rem" }}>{likes}</span>
           </button>
-
           <button onClick={toggleCommentsVisibility}>
             <FaComment /> Comment
           </button>

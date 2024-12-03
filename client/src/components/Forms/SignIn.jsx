@@ -10,6 +10,11 @@ import {
   SignInHeading,
   SignInContainer1,
 } from "../StyledComponents/SignInStyled";
+import {
+  Logindiv,
+  LoginButton,
+  Logintext,
+} from "../StyledComponents/SignUpStyled";
 import apiBase from "../../utils/apiBase";
 import { toast } from "react-toastify";
 import useUserStore from "../../../../server/src/store/useStore";
@@ -100,6 +105,11 @@ function SignIn() {
         <SignInButton type="submit" disabled={isLoading}>
           {isLoading ? "Loading..." : "Login"}
         </SignInButton>
+
+        <Logindiv>
+          <Logintext>Don't have an account?</Logintext>
+          <LoginButton onClick={() => navigate("/SignUp")}>SignUp</LoginButton>
+        </Logindiv>
       </SignInContainer>
     </SignInContainer1>
   );

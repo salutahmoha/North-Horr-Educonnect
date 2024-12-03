@@ -18,3 +18,13 @@ body {
   --color-form: #d5e1ec;
   --color-bg: #d3efd3;
 }
+
+/* Override success toast style (green) */
+.toast-success {
+  color: green !important;
+}
+
+/* Override error toast style (red) */
+.toast-error {
+  color: red !important;
+}
