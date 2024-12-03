@@ -179,26 +179,26 @@ function ReportPreview({ id, schoolname, image, body }) {
     setIsCommentsVisible((prev) => !prev);
   };
 
-  // const handleShare = () => {
-  //   const shareData = {
-  //     title: schoolname,
-  //     text: `Check out this report from ${schoolname}!`,
-  //     url: window.location.href, // Use the current page URL
-  //   };
+  const handleShare = () => {
+    const shareData = {
+      title: schoolname,
+      text: `Check out this report from ${schoolname}!`,
+      url: window.location.href, // Use the current page URL
+    };
 
-  //   if (navigator.share) {
-  //     navigator
-  //       .share(shareData)
-  //       .then(() => console.log("Report shared successfully"))
-  //       .catch((err) => console.error("Error sharing", err));
-  //   } else {
-  //     // Fallback for unsupported browsers
-  //     navigator.clipboard
-  //       .writeText(shareData.url)
-  //       .then(() => alert("Link copied to clipboard!"))
-  //       .catch((err) => console.error("Failed to copy link", err));
-  //   }
-  // };
+    if (navigator.share) {
+      navigator
+        .share(shareData)
+        .then(() => console.log("Report shared successfully"))
+        .catch((err) => console.error("Error sharing", err));
+    } else {
+      // Fallback for unsupported browsers
+      navigator.clipboard
+        .writeText(shareData.url)
+        .then(() => alert("Link copied to clipboard!"))
+        .catch((err) => console.error("Failed to copy link", err));
+    }
+  };
 
   // const handleCommentLike = async (commentId) => {
   //   if (!user) {
