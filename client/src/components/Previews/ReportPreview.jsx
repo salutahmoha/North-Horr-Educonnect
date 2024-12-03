@@ -200,35 +200,35 @@ function ReportPreview({ id, schoolname, image, body }) {
     }
   };
 
-  // const handleCommentLike = async (commentId) => {
-  //   if (!user) {
-  //     alert("Please log in to like this comment.");
-  //     return;
-  //   }
+  const handleCommentLike = async (commentId) => {
+    if (!user) {
+      alert("Please log in to like this comment.");
+      return;
+    }
 
-  //   try {
-  //     const response = await axios.post(
-  //       `${apiBase}/comments/${commentId}/like`, // Endpoint to like the comment
-  //       {},
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${user.token}`,
-  //         },
-  //         withCredentials: true,
-  //       },
-  //     );
+    try {
+      const response = await axios.post(
+        `${apiBase}/comments/${commentId}/like`, // Endpoint to like the comment
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+          withCredentials: true,
+        },
+      );
 
-  //     setCommentLikes((prev) => ({
-  //       ...prev,
-  //       [commentId]: {
-  //         liked: response.data.liked,
-  //         likes: response.data.likesCount,
-  //       },
-  //     }));
-  //   } catch (error) {
-  //     console.error("Error liking the comment", error);
-  //   }
-  // };
+      setCommentLikes((prev) => ({
+        ...prev,
+        [commentId]: {
+          liked: response.data.liked,
+          likes: response.data.likesCount,
+        },
+      }));
+    } catch (error) {
+      console.error("Error liking the comment", error);
+    }
+  };
 
   return (
     <ReportPreviewContainer>
