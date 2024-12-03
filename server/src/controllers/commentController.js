@@ -195,62 +195,62 @@ export async function likeReport(req, res) {
   }
 }
 
-// // liking comment
-// export async function likeComment(req, res) {
-//   const { commentId } = req.params; // Comment ID
-//   const userId = req.userId; // User ID from authenticated request
+// liking comment
+export async function likeComment(req, res) {
+  const { commentId } = req.params; // Comment ID
+  const userId = req.userId; // User ID from authenticated request
 
-//   // Basic validation for comment ID
-//   if (!commentId) {
-//     return res.status(400).json({ message: "Invalid comment ID" });
-//   }
+  // Basic validation for comment ID
+  if (!commentId) {
+    return res.status(400).json({ message: "Invalid comment ID" });
+  }
 
-//   try {
-//     // Find the comment by ID
-//     const comment = await prisma.comment.findUnique({
-//       where: { id: commentId },
-//       include: {
-//         likes: true, // Include likes to count them
-//       },
-//     });
+  try {
+    // Find the comment by ID
+    const comment = await prisma.comment.findUnique({
+      where: { id: commentId },
+      include: {
+        likes: true, // Include likes to count them
+      },
+    });
 
-//     if (!comment) {
-//       return res.status(404).json({ message: "Comment not found" });
-//     }
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
 
-//     // Check if the user has already liked the comment
-//     const existingLike = await prisma.like.findUnique({
-//       where: {
-//         userId_commentId: {
-//           userId: userId,
-//           commentId: commentId,
-//         },
-//       },
-//     });
+    // Check if the user has already liked the comment
+    const existingLike = await prisma.like.findUnique({
+      where: {
+        userId_commentId: {
+          userId: userId,
+          commentId: commentId,
+        },
+      },
+    });
 
-//     if (existingLike) {
-//       // User has already liked the comment, so unlike it
-//       await prisma.like.delete({
-//         where: {
-//           userId_commentId: {
-//             userId: userId,
-//             commentId: commentId,
-//           },
-//         },
-//       });
-//       return res.json({ liked: false, likesCount: comment.likes.length - 1 });
-//     } else {
-//       // User has not liked the comment, so add the like
-//       await prisma.like.create({
-//         data: {
-//           userId: userId,
-//           commentId: commentId,
-//         },
-//       });
-//       return res.json({ liked: true, likesCount: comment.likes.length + 1 });
-//     }
-//   } catch (err) {
-//     console.error("Error liking the comment", err);
-//     return res.status(500).json({ message: "Internal server error" });
-//   }
-// }
+    if (existingLike) {
+      // User has already liked the comment, so unlike it
+      await prisma.like.delete({
+        where: {
+          userId_commentId: {
+            userId: userId,
+            commentId: commentId,
+          },
+        },
+      });
+      return res.json({ liked: false, likesCount: comment.likes.length - 1 });
+    } else {
+      // User has not liked the comment, so add the like
+      await prisma.like.create({
+        data: {
+          userId: userId,
+          commentId: commentId,
+        },
+      });
+      return res.json({ liked: true, likesCount: comment.likes.length + 1 });
+    }
+  } catch (err) {
+    console.error("Error liking the comment", err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
